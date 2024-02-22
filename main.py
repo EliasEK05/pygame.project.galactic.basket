@@ -1,11 +1,18 @@
 import pygame
 import sys
+from pygame.locals import *
+
+def close_game():
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            exit()
 
 
 pygame.init()
 
 #dimension de l'écran de jeu
-ecran = pygame.display.set_mode((1000,700)) #pygame.FULLCREEN
+ecran = pygame .display.set_mode((1000,700)) #pygame.FULLCREEN
 
 # Ajouter un titre à la fenêtre
 pygame.display.set_caption('Galctic Basket')
@@ -17,12 +24,18 @@ horloge = pygame.time.Clock()
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
+terrain = pygame.image.load("image/court.jpg").convert_alpha()
+terrain = pygame.transform.scale(terrain,(1000, 700))
 
-
-img = pygame.image.load("image/prototype_jeu.jpg").convert_alpha()
+img = pygame.image.load("image/prototype_jeu.jpg").convert_alpha()   #mieux manier l'image (moins pixelisé)
 img = pygame.transform.scale(img,(900, 500))
 imge = img.get_rect()
 
+bouton_play = pygame.image.load("image/bouton_play.png").convert_alpha()
+bouton_play = pygame.transform.scale(bouton_play, (360, 360))  #possibilité de changer la taille
+bouton_clic = bouton_play.get_rect()
+bouton_clic.topleft = (330, 300)
+print(bouton_clic)
 
 # Définition de la police de caractères
 font = pygame.font.Font(None, 36)
@@ -31,19 +44,23 @@ font = pygame.font.Font(None, 36)
 time_remaining = 60
 
 
+continuer = True
 
 
-while True:
+
+while continuer:
 
     horloge.tick(60)
     pygame.display.update()
 
 
     # Effacer l'écran
-    ecran.fill(BLACK)
+    ecran.fill(0)
 
     #affichage de l'image test
     ecran.blit(img, (50, 80))
+    ecran.blit(bouton_play, (bouton_clic.topleft))
+
 
     # pour pouvoir utiliser les touches (à utiliser plus tard)
     pygame.event.get()
@@ -68,10 +85,29 @@ while True:
     if time_remaining < 0:
         break
 
-    #ecran.blit(time_text, (950, 40))
     for event in pygame.event.get():
-        if event.type == pygame.KEYDOWN:
+        if event.type == pygame.QUIT:
             continuer = False
+        elif event.type == MOUSEBUTTONUP:
+            if bouton_clic.collidepoint(event.pos):
+                ecran.fill(0)
+
+
+
+
+                while continuer:
+
+                    horloge.tick(60)
+                    pygame.display.update()
+                    pygame.display.flip()
+                    ecran.blit(terrain, (0, 0))
+
+
+                    for event in pygame.event.get():
+                        if event.type == pygame.QUIT:
+                            continuer = False
+
+
 
 
 # Quitter Pygame
