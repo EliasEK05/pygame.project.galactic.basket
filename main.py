@@ -39,6 +39,8 @@ terrain = pygame.transform.scale(terrain,(1000, 700))
 
 ballon = pygame.image.load("image/ballon.png").convert_alpha()
 ballon = pygame.transform.scale(ballon, (100, 100))
+ballon_surface = ballon.get_rect()
+ballon_surface.topleft = (100, 375)
 
 img = pygame.image.load("image/prototype_jeu.jpg").convert_alpha()   #mieux manier l'image (moins pixelisé)
 img = pygame.transform.scale(img,(900, 500))
@@ -106,6 +108,9 @@ while continuer:
                     for event in pygame.event.get():
                         if event.type == pygame.QUIT:
                             continuer = False
+                        elif event.type == MOUSEBUTTONUP and event.button == 1:
+                            if ballon_surface.collidepoint(event.pos):
+                                print("ceci est un ballon")
 
 
 
