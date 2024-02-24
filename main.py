@@ -108,9 +108,14 @@ while continuer:
                     for event in pygame.event.get():
                         if event.type == pygame.QUIT:
                             continuer = False
-                        elif event.type == MOUSEBUTTONUP and event.button == 1:
-                            if ballon_surface.collidepoint(event.pos):
+                        elif event.type == MOUSEBUTTONDOWN and event.button == 1:
+                            pos_x_init, pos_y_init = event.pos
+                            print(pos_x_init, pos_y_init)
+                            if ballon_surface.collidepoint((pos_x_init, pos_y_init)):
                                 print("ceci est un ballon")
+                        elif event.type == MOUSEBUTTONUP and event.button == 1:
+                            pos_x_fin, pos_y_fin = event.pos
+                            print(pos_x_fin, pos_y_fin)
 
 
 
