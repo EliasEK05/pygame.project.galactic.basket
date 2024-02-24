@@ -2,11 +2,21 @@ import pygame
 import sys
 from pygame.locals import *
 
-def close_game():
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            exit()
+def clock(time_remaining_):
+    # Calcul du temps restant en minutes et secondes
+    minutes = time_remaining_ // 60
+    seconds = time_remaining_ % 60
+
+    # Définition de la police de caractères
+    font = pygame.font.Font(None, 36)
+
+    # Affichage du temps restant
+    time_text = font.render(f"{minutes:02}:{seconds:02}", True, WHITE)
+    ecran.blit(time_text, (150, 40))
+
+
+
+
 
 
 pygame.init()
@@ -27,15 +37,16 @@ WHITE = (255, 255, 255)
 terrain = pygame.image.load("image/court.jpg").convert_alpha()
 terrain = pygame.transform.scale(terrain,(1000, 700))
 
+ballon = pygame.image.load("image/ballon.png").convert_alpha()
+ballon = pygame.transform.scale(ballon, (100, 100))
+
 img = pygame.image.load("image/prototype_jeu.jpg").convert_alpha()   #mieux manier l'image (moins pixelisé)
 img = pygame.transform.scale(img,(900, 500))
-imge = img.get_rect()
 
 bouton_play = pygame.image.load("image/bouton_play.png").convert_alpha()
 bouton_play = pygame.transform.scale(bouton_play, (360, 360))  #possibilité de changer la taille
 bouton_clic = bouton_play.get_rect()
 bouton_clic.topleft = (330, 300)
-print(bouton_clic)
 
 # Définition de la police de caractères
 font = pygame.font.Font(None, 36)
@@ -43,19 +54,15 @@ font = pygame.font.Font(None, 36)
 # Temps initial en secondes (1 minute)
 time_remaining = 60
 
-
 continuer = True
-
 
 
 while continuer:
 
     horloge.tick(60)
-    pygame.display.update()
-
 
     # Effacer l'écran
-    ecran.fill(0)
+    ecran.fill(BLACK)
 
     #affichage de l'image test
     ecran.blit(img, (50, 80))
@@ -65,16 +72,9 @@ while continuer:
     # pour pouvoir utiliser les touches (à utiliser plus tard)
     pygame.event.get()
 
-    # Calcul du temps restant en minutes et secondes
-    minutes = time_remaining // 60
-    seconds = time_remaining % 60
+    clock(time_remaining)
 
-
-    # Affichage du temps restant
-    time_text = font.render(f"{minutes:02}:{seconds:02}", True, WHITE)
-    ecran.blit(time_text, (150, 40))
-
-    # Mettre à jour l'écran
+    # Mettre à jour l'écran à mettre IMPERATIVEMENT apres l'appel de la fonction pas avant
     pygame.display.flip()
 
     # Réduire le temps restant de 1 seconde
@@ -88,9 +88,9 @@ while continuer:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             continuer = False
-        elif event.type == MOUSEBUTTONUP:
+        elif event.type == MOUSEBUTTONUP and event.button == 1:
             if bouton_clic.collidepoint(event.pos):
-                ecran.fill(0)
+                ecran.fill(BLACK)
 
 
 
@@ -98,15 +98,14 @@ while continuer:
                 while continuer:
 
                     horloge.tick(60)
-                    pygame.display.update()
                     pygame.display.flip()
                     ecran.blit(terrain, (0, 0))
+                    ecran.blit(ballon, (100, 375))
 
 
                     for event in pygame.event.get():
                         if event.type == pygame.QUIT:
                             continuer = False
-
 
 
 
