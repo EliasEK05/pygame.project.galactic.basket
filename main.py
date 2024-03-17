@@ -2,53 +2,85 @@ import pygame
 import sys
 from pygame.locals import *
 
-def clock(time_remaining_):
-    # Calcul du temps restant en minutes et secondes
-    minutes = time_remaining_ // 60
-    seconds = time_remaining_ % 60
-
-    # Définition de la police de caractères
-    font = pygame.font.Font(None, 36)
-
-    # Affichage du temps restant
-    time_text = font.render(f"{minutes:02}:{seconds:02}", True, WHITE)
-    ecran.blit(time_text, (150, 40))
-
-
-
-
-
-
 pygame.init()
 
-#dimension de l'écran de jeu
-ecran = pygame .display.set_mode((1000,700)) #pygame.FULLCREEN
+# dimension de l'écran de jeu
+ecran = pygame.display.set_mode((1000, 650))  # pygame.FULLCREEN
 
 # Ajouter un titre à la fenêtre
-pygame.display.set_caption('Galctic Basket')
+pygame.display.set_caption('Galactic Basket')
 
 horloge = pygame.time.Clock()
-
 
 # Définition des couleurs
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
-terrain = pygame.image.load("image/court.jpg").convert_alpha()
-terrain = pygame.transform.scale(terrain,(1000, 700))
+img = pygame.image.load("image/menu_principal.jpg").convert_alpha()  # mieux manier l'image (moins pixelisé)
+img = pygame.transform.scale(img, (1000, 650))
+imge = img.get_rect()
 
-ballon = pygame.image.load("image/ballon.png").convert_alpha()
-ballon = pygame.transform.scale(ballon, (100, 100))
-ballon_surface = ballon.get_rect()
-ballon_surface.topleft = (100, 375)
+parametre = pygame.image.load("image/bouton_play.png").convert_alpha()
+parametre = pygame.transform.scale(parametre, (1000, 750))
 
-img = pygame.image.load("image/prototype_jeu.jpg").convert_alpha()   #mieux manier l'image (moins pixelisé)
-img = pygame.transform.scale(img,(900, 500))
+play = pygame.image.load("image/test_background.jpg").convert_alpha()
+play = pygame.transform.scale(play, (1000, 700))
 
-bouton_play = pygame.image.load("image/bouton_play.png").convert_alpha()
-bouton_play = pygame.transform.scale(bouton_play, (360, 360))  #possibilité de changer la taille
-bouton_clic = bouton_play.get_rect()
-bouton_clic.topleft = (330, 300)
+mode_1 = pygame.image.load("image/court.jpg").convert_alpha()
+mode_1 = pygame.transform.scale(mode_1, (1000, 700))
+
+mode_2 = pygame.image.load("image/court.jpg").convert_alpha()
+mode_2 = pygame.transform.scale(mode_2, (1000, 700))
+
+# bouton play
+bouton_play = pygame.image.load("image/play_button.png").convert_alpha()
+bouton_play = pygame.transform.scale(bouton_play, (200, 200))  # possibilité de changer la taille
+bouton_clic_play = bouton_play.get_rect()
+bouton_clic_play.topleft = (400, 420)
+print(bouton_clic_play)
+
+# bouton reglage
+
+bouton_reglage = pygame.image.load("image/settings_button.png").convert_alpha()
+bouton_reglage = pygame.transform.scale(bouton_reglage, (200, 200))  # possibilité de changer la taille
+bouton_clic_reglage = bouton_reglage.get_rect()
+bouton_clic_reglage.topleft = (400, 500)
+print(bouton_clic_reglage)
+
+# bouton on
+bouton_on = pygame.image.load("image/Untitled_Artwork (1).png").convert_alpha()
+bouton_on = pygame.transform.scale(bouton_on, (150, 150))  # possibilité de changer la taille
+bouton_clic_on = bouton_on.get_rect()
+bouton_clic_on.topleft = (300, 300)
+print(bouton_clic_on)
+
+# bouton off
+bouton_off = pygame.image.load("image/ballon.png").convert_alpha()
+bouton_off = pygame.transform.scale(bouton_off, (150, 150))  # possibilité de changer la taille
+bouton_clic_off = bouton_off.get_rect()
+bouton_clic_off.topleft = (600, 300)
+print(bouton_clic_off)
+
+# bouton retour
+bouton_retour = pygame.image.load("image/back_button.png").convert_alpha()
+bouton_retour = pygame.transform.scale(bouton_retour, (150, 150))
+bouton_clic_retour = bouton_retour.get_rect()
+bouton_clic_retour.topleft = (20, 20)
+print(bouton_clic_retour)
+
+# bouton mode 1
+bouton_mode_1 = pygame.image.load("image/Untitled_Artwork (1).png").convert_alpha()
+bouton_mode_1 = pygame.transform.scale(bouton_mode_1, (350, 100))
+bouton_clic_mode_1 = bouton_mode_1.get_rect()
+bouton_clic_mode_1.topleft = (330, 200)
+print(bouton_clic_mode_1)
+
+# bouton mode 2
+bouton_mode_2 = pygame.image.load("image/Untitled_Artwork (1).png").convert_alpha()
+bouton_mode_2 = pygame.transform.scale(bouton_mode_2, (350, 100))
+bouton_clic_mode_2 = bouton_mode_2.get_rect()
+bouton_clic_mode_2.topleft = (330, 400)
+print(bouton_clic_mode_2)
 
 # Définition de la police de caractères
 font = pygame.font.Font(None, 36)
@@ -57,68 +89,84 @@ font = pygame.font.Font(None, 36)
 time_remaining = 60
 
 continuer = True
-
+current_screen = "menu"  # Initial screen is the main menu
 
 while continuer:
 
     horloge.tick(60)
+    pygame.display.update()
 
-    # Effacer l'écran
-    ecran.fill(BLACK)
+    ecran.fill(0)
 
-    #affichage de l'image test
-    ecran.blit(img, (50, 80))
-    ecran.blit(bouton_play, (bouton_clic.topleft))
+    if current_screen == "menu":  # ecran principal
+        ecran.blit(img, (0, 0))
+        ecran.blit(bouton_play, bouton_clic_play.topleft)
+        ecran.blit(bouton_reglage, bouton_clic_reglage)
 
-
-    # pour pouvoir utiliser les touches (à utiliser plus tard)
-    pygame.event.get()
-
-    clock(time_remaining)
-
-    # Mettre à jour l'écran à mettre IMPERATIVEMENT apres l'appel de la fonction pas avant
-    pygame.display.flip()
-
-    # Réduire le temps restant de 1 seconde
-    pygame.time.wait(1000)
-    time_remaining -= 1
-
-    # Si le temps est écoulé, arrêter le minuteur
-    if time_remaining < 0:
-        break
-
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            continuer = False
-        elif event.type == MOUSEBUTTONUP and event.button == 1:
-            if bouton_clic.collidepoint(event.pos):
-                ecran.fill(BLACK)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                continuer = False
+            elif event.type == MOUSEBUTTONUP:
+                if bouton_clic_play.collidepoint(event.pos):
+                    current_screen = "play"
+                elif bouton_clic_reglage.collidepoint(event.pos):
+                    current_screen = "settings"
 
 
 
+    elif current_screen == "settings":  # ecran parametre
+        ecran.blit(parametre, (0, 0))
+        ecran.blit(bouton_on, bouton_clic_on.topleft)
+        ecran.blit(bouton_off, bouton_clic_off.topleft)
+        ecran.blit(bouton_retour, bouton_clic_retour.topleft)
 
-                while continuer:
-
-                    horloge.tick(60)
-                    pygame.display.flip()
-                    ecran.blit(terrain, (0, 0))
-                    ecran.blit(ballon, (100, 375))
-
-
-                    for event in pygame.event.get():
-                        if event.type == pygame.QUIT:
-                            continuer = False
-                        elif event.type == MOUSEBUTTONDOWN and event.button == 1:
-                            pos_x_init, pos_y_init = event.pos
-                            print(pos_x_init, pos_y_init)
-                            if ballon_surface.collidepoint((pos_x_init, pos_y_init)):
-                                print("ceci est un ballon")
-                        elif event.type == MOUSEBUTTONUP and event.button == 1:
-                            pos_x_fin, pos_y_fin = event.pos
-                            print(pos_x_fin, pos_y_fin)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                continuer = False
+            elif event.type == MOUSEBUTTONUP:
+                if bouton_clic_retour.collidepoint(event.pos):
+                    current_screen = "menu"
 
 
 
-# Quitter Pygame
+    elif current_screen == "play":  # ecran play
+        ecran.blit(play, (0, 0))
+        ecran.blit(bouton_retour, bouton_clic_retour.topleft)
+        ecran.blit(bouton_mode_1, bouton_clic_mode_1.topleft)
+        ecran.blit(bouton_mode_2, bouton_clic_mode_2.topleft)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                continuer = False
+            elif event.type == MOUSEBUTTONUP:
+                if bouton_clic_retour.collidepoint(event.pos):
+                    current_screen = "menu"
+                elif bouton_clic_mode_1.collidepoint(event.pos):
+                    current_screen = "mode_1"
+                elif bouton_clic_mode_2.collidepoint(event.pos):
+                    current_screen = "mode_2"
+
+
+    elif current_screen == "mode_1":
+        ecran.blit(mode_1, (0, 0))
+        ecran.blit(bouton_retour, bouton_clic_retour.topleft)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                continuer = False
+            elif event.type == MOUSEBUTTONUP:
+                if bouton_clic_retour.collidepoint(event.pos):
+                    current_screen = "play"
+
+    elif current_screen == "mode_2":
+        ecran.blit(mode_2, (0, 0))
+        ecran.blit(bouton_retour, bouton_clic_retour.topleft)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                continuer = False
+            elif event.type == MOUSEBUTTONUP:
+                if bouton_clic_retour.collidepoint(event.pos):
+                    current_screen = "play"
+
 pygame.quit()
 sys.exit()
+
