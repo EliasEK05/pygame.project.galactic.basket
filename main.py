@@ -12,18 +12,25 @@ pygame.display.set_caption('Galactic Basket')
 
 horloge = pygame.time.Clock()
 
+#Définition volume général
+volume = 100
+
 # Définition des couleurs
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
-img = pygame.image.load("image/menu_principal.jpg").convert_alpha()  # mieux manier l'image (moins pixelisé)
-img = pygame.transform.scale(img, (1000, 650))
-imge = img.get_rect()
+# Fond d'écran menu principal
+menu = pygame.image.load("image/menu_principal.jpg").convert_alpha()  # mieux manier l'image (moins pixelisé)
+menu = pygame.transform.scale(menu, (1000, 650))
+menu_principal = menu.get_rect()
 
-parametre = pygame.image.load("image/bouton_play.png").convert_alpha()
+# Fond d'écran paramètres
+parametre = pygame.image.load("image/mode_menu.png").convert_alpha()
 parametre = pygame.transform.scale(parametre, (1000, 750))
+menu_parametre = parametre.get_rect()
 
-play = pygame.image.load("image/test_background.jpg").convert_alpha()
+# Fond d'écran
+play = pygame.image.load("image/mode_menu.png").convert_alpha()
 play = pygame.transform.scale(play, (1000, 700))
 
 mode_1 = pygame.image.load("image/court.jpg").convert_alpha()
@@ -31,6 +38,26 @@ mode_1 = pygame.transform.scale(mode_1, (1000, 700))
 
 mode_2 = pygame.image.load("image/court.jpg").convert_alpha()
 mode_2 = pygame.transform.scale(mode_2, (1000, 700))
+
+# slider pour le volume
+class Slider:
+    def __init__(self, pos, size, initial_val : float, min : int, max : int):
+        self.pos = pos
+        self.size = size
+
+        self.slider_left_position = self.pos[0] - (size[0]//2)
+        self.slider_right_position = self.pos[0] + (size[0]//2)
+        self.slider_top_position = self.pos[1] - (size[1]//2)
+
+        self.min = min
+        self.max = max
+        self.initial_position = 0
+
+        self.slider_rectangle = pygame.Rect(self.slider_left_position, self.slider_top_position,
+                                            self.slider_right_position, self.size[0], self.size[1])
+        self.slider_button = pygame.Rect(self.slider_left_position + self.initial_position -5,
+                                         self.slider_top_position, 30, self.size[1])
+
 
 # bouton play
 bouton_play = pygame.image.load("image/play_button.png").convert_alpha()
@@ -68,19 +95,20 @@ bouton_clic_retour = bouton_retour.get_rect()
 bouton_clic_retour.topleft = (20, 20)
 print(bouton_clic_retour)
 
-# bouton mode 1
-bouton_mode_1 = pygame.image.load("image/Untitled_Artwork (1).png").convert_alpha()
-bouton_mode_1 = pygame.transform.scale(bouton_mode_1, (350, 100))
-bouton_clic_mode_1 = bouton_mode_1.get_rect()
-bouton_clic_mode_1.topleft = (330, 200)
-print(bouton_clic_mode_1)
 
-# bouton mode 2
-bouton_mode_2 = pygame.image.load("image/Untitled_Artwork (1).png").convert_alpha()
-bouton_mode_2 = pygame.transform.scale(bouton_mode_2, (350, 100))
-bouton_clic_mode_2 = bouton_mode_2.get_rect()
-bouton_clic_mode_2.topleft = (330, 400)
-print(bouton_clic_mode_2)
+# bouton balle 1
+bouton_balle_1 = pygame.image.load("image/meteor_ball.png").convert_alpha()
+bouton_balle_1 = pygame.transform.scale(bouton_balle_1, (350, 350))
+bouton_clic_balle_1 = bouton_balle_1.get_rect()
+bouton_clic_balle_1.topleft = (200, 300)
+print(bouton_clic_balle_1)
+
+# bouton balle 2
+bouton_balle_2 = pygame.image.load("image/planet_ball.png").convert_alpha()
+bouton_balle_2 = pygame.transform.scale(bouton_balle_2, (350, 350))
+bouton_clic_balle_2 = bouton_balle_2.get_rect()
+bouton_clic_balle_2.topleft = (500, 300)
+print(bouton_clic_balle_2)
 
 # Définition de la police de caractères
 font = pygame.font.Font(None, 36)
@@ -99,7 +127,7 @@ while continuer:
     ecran.fill(0)
 
     if current_screen == "menu":  # ecran principal
-        ecran.blit(img, (0, 0))
+        ecran.blit(menu, (0, 0))
         ecran.blit(bouton_play, bouton_clic_play.topleft)
         ecran.blit(bouton_reglage, bouton_clic_reglage)
 
@@ -116,24 +144,24 @@ while continuer:
 
     elif current_screen == "settings":  # ecran parametre
         ecran.blit(parametre, (0, 0))
-        ecran.blit(bouton_on, bouton_clic_on.topleft)
-        ecran.blit(bouton_off, bouton_clic_off.topleft)
         ecran.blit(bouton_retour, bouton_clic_retour.topleft)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 continuer = False
+            elif event.type == K_UP:
+                volume += 1
+            elif event.type == K_DOWN:
+                volume -=1
             elif event.type == MOUSEBUTTONUP:
                 if bouton_clic_retour.collidepoint(event.pos):
                     current_screen = "menu"
-
-
 
     elif current_screen == "play":  # ecran play
         ecran.blit(play, (0, 0))
         ecran.blit(bouton_retour, bouton_clic_retour.topleft)
-        ecran.blit(bouton_mode_1, bouton_clic_mode_1.topleft)
-        ecran.blit(bouton_mode_2, bouton_clic_mode_2.topleft)
+        ecran.blit(bouton_balle_1, bouton_clic_balle_1)
+        ecran.blit(bouton_balle_2, bouton_clic_balle_2)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -141,11 +169,10 @@ while continuer:
             elif event.type == MOUSEBUTTONUP:
                 if bouton_clic_retour.collidepoint(event.pos):
                     current_screen = "menu"
-                elif bouton_clic_mode_1.collidepoint(event.pos):
+                elif bouton_clic_balle_1.collidepoint(event.pos):
                     current_screen = "mode_1"
-                elif bouton_clic_mode_2.collidepoint(event.pos):
+                elif bouton_clic_balle_2.collidepoint(event.pos):
                     current_screen = "mode_2"
-
 
     elif current_screen == "mode_1":
         ecran.blit(mode_1, (0, 0))
