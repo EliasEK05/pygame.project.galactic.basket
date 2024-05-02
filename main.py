@@ -17,8 +17,8 @@ horloge = pygame.time.Clock()
 volume = 100
 
 # Définition des constantes physiques :
-GRAVITE = 9.81
-REBONDISSEMENT = 0.4
+GRAVITE = 9.81*5
+REBONDISSEMENT = 0.6
 vitesse_initial_x = 0
 vitesse_initial_y = 0
 
@@ -58,8 +58,7 @@ class Slider:
         self.max = max
         self.initial_position = 0
 
-        self.slider_rectangle = pygame.Rect(self.slider_left_position, self.slider_top_position,
-                                            self.slider_right_position, self.size[0], self.size[1])
+        self.slider_rectangle = pygame.Rect(self.slider_left_position, self.slider_top_position,self.slider_right_position, self.size[0], self.size[1])
         self.slider_button = pygame.Rect(self.slider_left_position + self.initial_position -5,
                                          self.slider_top_position, 30, self.size[1])
 # bouton play
@@ -116,7 +115,7 @@ bouton_clic_balle_1.topleft = (150, 300)
 font = pygame.font.Font(None, 36)
 
 # Definition du ballon
-ballon = pygame.image.load("image/ballon.png").convert_alpha()
+ballon = pygame.image.load("image/meteor_ball.png").convert_alpha()
 ballon = pygame.transform.scale(ballon, (100, 100))
 
 # Position initial du ballon
@@ -227,8 +226,14 @@ while continuer:
                 pos_x_fin, pos_y_fin = event.pos
                 angle = math.atan2(pos_y_fin - pos_y_init, pos_x_fin - pos_x_init)
                 tir = False
-                vitesse_init_x = 100 * math.cos(angle)
-                vitesse_init_y = 100 * math.sin(angle)
+                vitesse_init_x = abs(pos_x_fin - pos_x_init) * math.cos(angle)
+
+                vitesse_init_y = abs(pos_y_fin - pos_y_init)* math.sin(angle)
+                print(vitesse_init_y)
+
+                if vitesse_init_x > 200:
+                    vitesse_init_x = 200
+                print(vitesse_init_x)
 
             # Permet de replacer le ballon à sa position initial.
             elif event.type == KEYUP:
