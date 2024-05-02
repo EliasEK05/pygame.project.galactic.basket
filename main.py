@@ -25,7 +25,7 @@ menu = pygame.transform.scale(menu, (1000, 650))
 menu_principal = menu.get_rect()
 
 # Fond d'écran paramètres
-parametre = pygame.image.load("image/mode_menu.png").convert_alpha()
+parametre = pygame.image.load("image/test_background.jpg").convert_alpha()
 parametre = pygame.transform.scale(parametre, (1000, 750))
 menu_parametre = parametre.get_rect()
 
@@ -64,51 +64,46 @@ bouton_play = pygame.image.load("image/play_button.png").convert_alpha()
 bouton_play = pygame.transform.scale(bouton_play, (200, 200))  # possibilité de changer la taille
 bouton_clic_play = bouton_play.get_rect()
 bouton_clic_play.topleft = (400, 420)
-print(bouton_clic_play)
 
 # bouton reglage
-
 bouton_reglage = pygame.image.load("image/settings_button.png").convert_alpha()
 bouton_reglage = pygame.transform.scale(bouton_reglage, (200, 200))  # possibilité de changer la taille
 bouton_clic_reglage = bouton_reglage.get_rect()
 bouton_clic_reglage.topleft = (400, 500)
-print(bouton_clic_reglage)
 
 # bouton on
 bouton_on = pygame.image.load("image/Untitled_Artwork (1).png").convert_alpha()
 bouton_on = pygame.transform.scale(bouton_on, (150, 150))  # possibilité de changer la taille
 bouton_clic_on = bouton_on.get_rect()
 bouton_clic_on.topleft = (300, 300)
-print(bouton_clic_on)
 
 # bouton off
 bouton_off = pygame.image.load("image/ballon.png").convert_alpha()
 bouton_off = pygame.transform.scale(bouton_off, (150, 150))  # possibilité de changer la taille
 bouton_clic_off = bouton_off.get_rect()
 bouton_clic_off.topleft = (600, 300)
-print(bouton_clic_off)
 
 # bouton retour
 bouton_retour = pygame.image.load("image/back_button.png").convert_alpha()
 bouton_retour = pygame.transform.scale(bouton_retour, (150, 150))
 bouton_clic_retour = bouton_retour.get_rect()
 bouton_clic_retour.topleft = (20, 20)
-print(bouton_clic_retour)
 
 
-# bouton balle 1
+
+# bouton balle météorite
 bouton_balle_1 = pygame.image.load("image/meteor_ball.png").convert_alpha()
 bouton_balle_1 = pygame.transform.scale(bouton_balle_1, (350, 350))
 bouton_clic_balle_1 = bouton_balle_1.get_rect()
-bouton_clic_balle_1.topleft = (200, 300)
-print(bouton_clic_balle_1)
+bouton_clic_balle_1.topleft = (150, 300)
+
 
 # bouton balle 2
 bouton_balle_2 = pygame.image.load("image/planet_ball.png").convert_alpha()
 bouton_balle_2 = pygame.transform.scale(bouton_balle_2, (350, 350))
 bouton_clic_balle_2 = bouton_balle_2.get_rect()
 bouton_clic_balle_2.topleft = (500, 300)
-print(bouton_clic_balle_2)
+
 
 # Définition de la police de caractères
 font = pygame.font.Font(None, 36)
@@ -140,8 +135,6 @@ while continuer:
                 elif bouton_clic_reglage.collidepoint(event.pos):
                     current_screen = "settings"
 
-
-
     elif current_screen == "settings":  # ecran parametre
         ecran.blit(parametre, (0, 0))
         ecran.blit(bouton_retour, bouton_clic_retour.topleft)
@@ -160,6 +153,7 @@ while continuer:
     elif current_screen == "play":  # ecran play
         ecran.blit(play, (0, 0))
         ecran.blit(bouton_retour, bouton_clic_retour.topleft)
+        ecran.blit(bouton_reglage, (800, 20))
         ecran.blit(bouton_balle_1, bouton_clic_balle_1)
         ecran.blit(bouton_balle_2, bouton_clic_balle_2)
 
@@ -173,6 +167,8 @@ while continuer:
                     current_screen = "mode_1"
                 elif bouton_clic_balle_2.collidepoint(event.pos):
                     current_screen = "mode_2"
+                elif bouton_clic_reglage.collidepoint(event.pos):
+                    current_screen = "settings"
 
     elif current_screen == "mode_1":
         ecran.blit(mode_1, (0, 0))
