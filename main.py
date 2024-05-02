@@ -1,3 +1,4 @@
+
 import pygame
 import sys
 from pygame.locals import *
@@ -6,10 +7,8 @@ import math
 pygame.init()
 
 # dimension de l'écran de jeu
-ecran = pygame.display.set_mode((1000, 650))import pygame
-import sys
-from pygame.locals import *
-import math
+ecran = pygame.display.set_mode((1000, 650))
+
 
 def clock(timeremaining):
     # Calcul du temps restant en minutes et secondes
@@ -250,6 +249,8 @@ while continuer:
                     print("Ceci est un ballon")
             elif event.type == MOUSEBUTTONUP and event.button == 3:
                 pos_x_fin, pos_y_fin = event.pos
+                pos_x_init = pos_x_ballon
+                pos_y_init =pos_y_ballon
                 angle = math.atan2(pos_y_fin - pos_y_init, pos_x_fin - pos_x_init)
                 tir = False
                 vitesse_init_x = abs(pos_x_fin - pos_x_init) * math.cos(angle)
