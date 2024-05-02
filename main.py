@@ -1,7 +1,28 @@
+
 import pygame
 import sys
 from pygame.locals import *
 import math
+
+pygame.init()
+
+# dimension de l'écran de jeu
+ecran = pygame.display.set_mode((1000, 650))
+
+
+def clock(timeremaining):
+    # Calcul du temps restant en minutes et secondes
+    minutes = timeremaining // 60
+    seconds = timeremaining % 60
+
+    # Définition de la police de caractères
+    font = pygame.font.Font(None, 40)
+
+    # Affichage du temps restant
+    time_text = font.render(f"{minutes:02}:{seconds:02}", True, BLACK)
+    ecran.blit(time_text, (900, 40))
+
+
 
 pygame.init()
 
@@ -17,8 +38,8 @@ horloge = pygame.time.Clock()
 volume = 100
 
 # Définition des constantes physiques :
-GRAVITE = 9.81
-REBONDISSEMENT = 0.4
+GRAVITE = 9.81*5
+REBONDISSEMENT = 0.6
 vitesse_initial_x = 0
 vitesse_initial_y = 0
 
@@ -58,8 +79,7 @@ class Slider:
         self.max = max
         self.initial_position = 0
 
-        self.slider_rectangle = pygame.Rect(self.slider_left_position, self.slider_top_position,
-                                            self.slider_right_position, self.size[0], self.size[1])
+        self.slider_rectangle = pygame.Rect(self.slider_left_position, self.slider_top_position,self.slider_right_position, self.size[0], self.size[1])
         self.slider_button = pygame.Rect(self.slider_left_position + self.initial_position -5,
                                          self.slider_top_position, 30, self.size[1])
 # bouton play
@@ -116,7 +136,7 @@ bouton_clic_balle_1.topleft = (150, 300)
 font = pygame.font.Font(None, 36)
 
 # Definition du ballon
-ballon = pygame.image.load("image/ballon.png").convert_alpha()
+ballon = pygame.image.load("image/meteor_ball.png").convert_alpha()
 ballon = pygame.transform.scale(ballon, (100, 100))
 
 # Position initial du ballon
@@ -127,11 +147,15 @@ ballon_surface = ballon.get_rect(center=pos_ballon)
 
 
 # Temps initial en secondes (1 minute)
-time_remaining = 60
+time_remaining = 1800
+
 
 continuer = True
 tir = True
 current_screen = "menu"  # Initial screen is the main menu
+
+
+angle = 0
 
 while continuer:
 
@@ -141,6 +165,7 @@ while continuer:
     ecran.fill(0)
 
     if current_screen == "menu":  # ecran principal
+        time_remaining = 1800
         ecran.blit(img, (0, 0))
         ecran.blit(bouton_play, bouton_clic_play.topleft)
         ecran.blit(bouton_reglage, bouton_clic_reglage)
@@ -192,6 +217,7 @@ while continuer:
         ecran.blit(bouton_balle_1, bouton_clic_balle_1.topleft)
         ecran.blit(bouton_balle_2, bouton_clic_balle_2.topleft)
 
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 continuer = False
@@ -207,12 +233,16 @@ while continuer:
 
 
 
+
     elif current_screen == "mode_1":
         ecran.blit(mode_1, (0, 0))
         ecran.blit(bouton_retour, bouton_clic_retour.topleft)
         début_jeu = pygame.time.get_ticks()
         font = pygame.font.Font(None,36)
         text_color = (0,0,0)
+
+
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 continuer = False
@@ -225,20 +255,27 @@ while continuer:
                     print("Ceci est un ballon")
             elif event.type == MOUSEBUTTONUP and event.button == 3:
                 pos_x_fin, pos_y_fin = event.pos
+                pos_x_init = pos_x_ballon
+                pos_y_init =pos_y_ballon
                 angle = math.atan2(pos_y_fin - pos_y_init, pos_x_fin - pos_x_init)
                 tir = False
-                vitesse_init_x = 100 * math.cos(angle)
-                vitesse_init_y = 100 * math.sin(angle)
+                vitesse_init_x = abs(pos_x_fin - pos_x_init) * math.cos(angle)
+                vitesse_init_y = abs(pos_y_fin - pos_y_init)* math.sin(angle)
+
+                if vitesse_init_x > 200:
+                    vitesse_init_x = 200
+
 
             # Permet de replacer le ballon à sa position initial.
             elif event.type == KEYUP:
                 tir = True
                 pos_x_ballon, pos_y_ballon = 150, 425
                 ballon_surface.center = pos_ballon
-        temps_ecoule = (pygame.time.get_ticks()-début_jeu)/1000
-        if temps_ecoule >=60:
-            continuer = False
-            print("Temps écoulé")
+        clock(time_remaining)
+
+        time_remaining -= 1
+        if time_remaining == 0:
+            current_screen = "menu"
 
         if tir == False:
 
@@ -253,9 +290,11 @@ while continuer:
 
             ballon_surface.center = (pos_x_ballon, pos_y_ballon)
 
-        text = font.render("Temps écoule : {:.0f}secondes".format(temps_ecoule),True,text_color)
-        ecran.blit(text,(10,10))
-        ecran.blit(ballon, ballon_surface)
+        # rotation de la balle
+        rotated_ball = pygame.transform.rotate(ballon, angle)
+        angle -= 2
+        ecran.blit(rotated_ball, ballon_surface)
+
         pygame.display.flip()
 
     elif current_screen == "mode_2":
