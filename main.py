@@ -83,17 +83,16 @@ class Slider:
                                          self.slider_top_position, 30, self.size[1])
 # bouton play
 bouton_play = pygame.image.load("image/play_button.png").convert_alpha()
-bouton_play = pygame.transform.scale(bouton_play, (200, 200))  # possibilité de changer la taille
+bouton_play = pygame.transform.scale(bouton_play, (250, 120))  # possibilité de changer la taille
 bouton_clic_play = bouton_play.get_rect()
-bouton_clic_play.topleft = (400, 420)
+bouton_clic_play.topleft = (350, 390)
 print(bouton_clic_play)
 
 # bouton reglage
-
 bouton_reglage = pygame.image.load("image/settings_button.png").convert_alpha()
-bouton_reglage = pygame.transform.scale(bouton_reglage, (200, 200))  # possibilité de changer la taille
+bouton_reglage = pygame.transform.scale(bouton_reglage, (250, 120))  # possibilité de changer la taille
 bouton_clic_reglage = bouton_reglage.get_rect()
-bouton_clic_reglage.topleft = (400, 500)
+bouton_clic_reglage.topleft = (350, 520)
 print(bouton_clic_reglage)
 
 # bouton on
