@@ -21,7 +21,22 @@ def clock(timeremaining):
     time_text = font.render(f"{minutes:02}:{seconds:02}", True, BLACK)
     ecran.blit(time_text, (900, 40))
 
-
+#son :
+pygame.mixer.init()
+#son principal :
+son_principal = pygame.mixer.Sound("son/son_principal.wav")
+#son mode 2 :
+son_mode = pygame.mixer.Sound("son/son_mode_2.wav")
+# état du son :
+etat_son = True
+# Fonction pour basculer l'état du son (activé/désactivé)
+def play_son(nom_son, etat):
+    if etat == True:
+        if not pygame.mixer.get_busy():  # Ajout de cette ligne
+            nom_son.play(loops=-1)
+    else:
+        pygame.mixer.stop()
+        
 
 pygame.init()
 
@@ -55,35 +70,16 @@ imge = img.get_rect()
 parametre = pygame.image.load("image/test_background.jpg").convert_alpha()
 parametre = pygame.transform.scale(parametre, (1000, 750))
 
-play = pygame.image.load("image/mode_menu.png").convert_alpha()
+play = pygame.image.load("image/test_background.jpg").convert_alpha()
 play = pygame.transform.scale(play, (1000, 700))
-
-endgame = pygame.image.load("image/test_background.jpg").convert_alpha()
-endgame = pygame.transform.scale(play, (1000, 700))
-
-mode_1 = pygame.image.load("image/court_mode_1.png").convert_alpha()
-mode_1 = pygame.transform.scale(mode_1, (1000, 700))
 
 mode_2 = pygame.image.load("image/court_mode_2.png").convert_alpha()
 mode_2 = pygame.transform.scale(mode_2, (1000, 700))
 
-# slider pour le volume
-class Slider:
-    def __init__(self, pos, size, initial_val : float, min : int, max : int):
-        self.pos = pos
-        self.size = size
+mode_1 = pygame.image.load("image/court_mode_1.png").convert_alpha()
+mode_1 = pygame.transform.scale(mode_1, (1000, 700))
 
-        self.slider_left_position = self.pos[0] - (size[0]//2)
-        self.slider_right_position = self.pos[0] + (size[0]//2)
-        self.slider_top_position = self.pos[1] - (size[1]//2)
 
-        self.min = min
-        self.max = max
-        self.initial_position = 0
-
-        self.slider_rectangle = pygame.Rect(self.slider_left_position, self.slider_top_position,self.slider_right_position, self.size[0], self.size[1])
-        self.slider_button = pygame.Rect(self.slider_left_position + self.initial_position -5,
-                                         self.slider_top_position, 30, self.size[1])
 # bouton play
 bouton_play = pygame.image.load("image/play_button.png").convert_alpha()
 bouton_play = pygame.transform.scale(bouton_play, (250, 120))  # possibilité de changer la taille
@@ -92,21 +88,22 @@ bouton_clic_play.topleft = (350, 390)
 print(bouton_clic_play)
 
 # bouton reglage
+
 bouton_reglage = pygame.image.load("image/settings_button.png").convert_alpha()
-bouton_reglage = pygame.transform.scale(bouton_reglage, (250, 120))  # possibilité de changer la taille
+bouton_reglage = pygame.transform.scale(bouton_reglage, (220, 120))  # possibilité de changer la taille
 bouton_clic_reglage = bouton_reglage.get_rect()
 bouton_clic_reglage.topleft = (350, 520)
 print(bouton_clic_reglage)
 
 # bouton on
-bouton_on = pygame.image.load("image/Untitled_Artwork (1).png").convert_alpha()
+bouton_on = pygame.image.load("image/bouton_on.png").convert_alpha()
 bouton_on = pygame.transform.scale(bouton_on, (150, 150))  # possibilité de changer la taille
 bouton_clic_on = bouton_on.get_rect()
 bouton_clic_on.topleft = (300, 300)
 print(bouton_clic_on)
 
 # bouton off
-bouton_off = pygame.image.load("image/ballon.png").convert_alpha()
+bouton_off = pygame.image.load("image/bouton_off.png").convert_alpha()
 bouton_off = pygame.transform.scale(bouton_off, (150, 150))  # possibilité de changer la taille
 bouton_clic_off = bouton_off.get_rect()
 bouton_clic_off.topleft = (600, 300)
@@ -114,7 +111,7 @@ print(bouton_clic_off)
 
 # bouton retour
 bouton_retour = pygame.image.load("image/back_button.png").convert_alpha()
-bouton_retour = pygame.transform.scale(bouton_retour, (150, 150))
+bouton_retour = pygame.transform.scale(bouton_retour, (220, 120))
 bouton_clic_retour = bouton_retour.get_rect()
 bouton_clic_retour.topleft = (20, 20)
 print(bouton_clic_retour)
@@ -478,6 +475,7 @@ while continuer:
         ecran.blit(img, (0, 0))
         ecran.blit(bouton_play, bouton_clic_play.topleft)
         ecran.blit(bouton_reglage, bouton_clic_reglage)
+        play_son(son_principal,etat_son)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -492,21 +490,11 @@ while continuer:
 
 
     elif current_screen == "settings":  # ecran parametre
-
+        
         ecran.blit(parametre, (0, 0))
-
         ecran.blit(bouton_retour, bouton_clic_retour.topleft)
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                continuer = False
-            elif event.type == K_UP:
-                volume += 1
-            elif event.type == K_DOWN:
-                volume -= 1
-            elif event.type == MOUSEBUTTONUP:
-                if bouton_clic_retour.collidepoint(event.pos):
-                    current_screen = "menu"
+        ecran.blit(bouton_on, bouton_clic_on.topleft)
+        ecran.blit(bouton_off, bouton_clic_off.topleft)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -514,6 +502,12 @@ while continuer:
             elif event.type == MOUSEBUTTONUP:
                 if bouton_clic_retour.collidepoint(event.pos):
                     current_screen = "menu"
+                elif bouton_clic_on.collidepoint(event.pos):
+                    etat_son = True
+                    play_son(son_principal,etat_son)
+                elif bouton_clic_off.collidepoint(event.pos):
+                    etat_son = False
+                    play_son(son_principal,etat_son)
 
 
 
