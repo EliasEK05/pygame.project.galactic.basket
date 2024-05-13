@@ -180,21 +180,10 @@ while continuer:
 
 
     elif current_screen == "settings":  # ecran parametre
-
         ecran.blit(parametre, (0, 0))
-
         ecran.blit(bouton_retour, bouton_clic_retour.topleft)
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                continuer = False
-            elif event.type == K_UP:
-                volume += 1
-            elif event.type == K_DOWN:
-                volume -= 1
-            elif event.type == MOUSEBUTTONUP:
-                if bouton_clic_retour.collidepoint(event.pos):
-                    current_screen = "menu"
+        ecran.blit(bouton_on, bouton_clic_on.topleft)
+        ecran.blit(bouton_off, bouton_clic_off.topleft)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -202,6 +191,13 @@ while continuer:
             elif event.type == MOUSEBUTTONUP:
                 if bouton_clic_retour.collidepoint(event.pos):
                     current_screen = "menu"
+                elif bouton_clic_on.collidepoint(event.pos):
+                    etat_son = True
+                    play_son(son_principal,etat_son)
+                elif bouton_clic_off.collidepoint(event.pos):
+                    etat_son = False
+                    play_son(son_principal,etat_son)
+     
 
 
 
