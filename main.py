@@ -513,7 +513,6 @@ while continuer:
 
         ecran.blit(play, (0, 0))
         ecran.blit(bouton_retour, bouton_clic_retour.topleft)
-        ecran.blit(bouton_reglage, (800, 20))
         ecran.blit(bouton_balle_1, bouton_clic_balle_1.topleft)
         ecran.blit(bouton_balle_2, bouton_clic_balle_2.topleft)
 
@@ -528,8 +527,7 @@ while continuer:
                     current_screen = "mode_1"
                 elif bouton_clic_balle_2.collidepoint(event.pos):
                     current_screen = "mode_2"
-                elif bouton_clic_reglage.collidepoint(event.pos):
-                    current_screen = "settings"
+  
 
 
     
