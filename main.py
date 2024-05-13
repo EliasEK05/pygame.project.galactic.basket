@@ -58,10 +58,10 @@ parametre = pygame.transform.scale(parametre, (1000, 750))
 play = pygame.image.load("image/test_background.jpg").convert_alpha()
 play = pygame.transform.scale(play, (1000, 700))
 
-mode_2 = pygame.image.load("image/court.jpg").convert_alpha()
+mode_2 = pygame.image.load("image/court_mode_2.png").convert_alpha()
 mode_2 = pygame.transform.scale(mode_2, (1000, 700))
 
-mode_1 = pygame.image.load("image/court.jpg").convert_alpha()
+mode_1 = pygame.image.load("image/court_mode_1.png").convert_alpha()
 mode_1 = pygame.transform.scale(mode_1, (1000, 700))
 
 # slider pour le volume
@@ -294,7 +294,7 @@ while continuer:
 
 
     elif current_screen == "mode_2":
-        ecran.blit(mode_1, (0, 0))
+        ecran.blit(mode_2, (0, 0))
         ecran.blit(bouton_retour, bouton_clic_retour.topleft)
 
         for event in pygame.event.get():
