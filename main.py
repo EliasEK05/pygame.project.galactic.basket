@@ -167,6 +167,7 @@ while continuer:
         ecran.blit(img, (0, 0))
         ecran.blit(bouton_play, bouton_clic_play.topleft)
         ecran.blit(bouton_reglage, bouton_clic_reglage)
+        play_son(son_principal,etat_son)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
