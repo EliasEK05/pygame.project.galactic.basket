@@ -1,3 +1,4 @@
+
 import pygame
 import sys
 from pygame.locals import *
@@ -58,11 +59,11 @@ parametre = pygame.transform.scale(parametre, (1000, 750))
 play = pygame.image.load("image/test_background.jpg").convert_alpha()
 play = pygame.transform.scale(play, (1000, 700))
 
-mode_2 = pygame.image.load("image/court.jpg").convert_alpha()
-mode_2 = pygame.transform.scale(mode_2, (1000, 700))
-
-mode_1 = pygame.image.load("image/court.jpg").convert_alpha()
+mode_1 = pygame.image.load("image/court_mode_1.png").convert_alpha()
 mode_1 = pygame.transform.scale(mode_1, (1000, 700))
+
+mode_2 = pygame.image.load("image/court_mode_2.png").convert_alpha()
+mode_2 = pygame.transform.scale(mode_2, (1000, 700))
 
 # slider pour le volume
 class Slider:
@@ -83,17 +84,16 @@ class Slider:
                                          self.slider_top_position, 30, self.size[1])
 # bouton play
 bouton_play = pygame.image.load("image/play_button.png").convert_alpha()
-bouton_play = pygame.transform.scale(bouton_play, (200, 200))  # possibilité de changer la taille
+bouton_play = pygame.transform.scale(bouton_play, (250, 120))  # possibilité de changer la taille
 bouton_clic_play = bouton_play.get_rect()
-bouton_clic_play.topleft = (400, 420)
+bouton_clic_play.topleft = (350, 390)
 print(bouton_clic_play)
 
 # bouton reglage
-
 bouton_reglage = pygame.image.load("image/settings_button.png").convert_alpha()
-bouton_reglage = pygame.transform.scale(bouton_reglage, (200, 200))  # possibilité de changer la taille
+bouton_reglage = pygame.transform.scale(bouton_reglage, (250, 120))  # possibilité de changer la taille
 bouton_clic_reglage = bouton_reglage.get_rect()
-bouton_clic_reglage.topleft = (400, 500)
+bouton_clic_reglage.topleft = (350, 520)
 print(bouton_clic_reglage)
 
 # bouton on
@@ -134,23 +134,15 @@ bouton_clic_balle_1.topleft = (150, 300)
 # Définition de la police de caractères
 font = pygame.font.Font(None, 36)
 
-# Definition du ballon météorite
-ballon_1 = pygame.image.load("image/meteor_ball.png").convert_alpha()
-ballon_1 = pygame.transform.scale(ballon_1, (100, 100))
+# Definition du ballon
+ballon = pygame.image.load("image/meteor_ball.png").convert_alpha()
+ballon = pygame.transform.scale(ballon, (100, 100))
 
-# Definition du ballon planete
-ballon_2 = pygame.image.load("image/planet_ball.png").convert_alpha()
-ballon_2 =pygame.transform.scale(ballon_2,(100,100))
+# Position initial du ballon
+pos_x_ballon, pos_y_ballon = 150, 425
+pos_ballon = [pos_x_ballon, pos_y_ballon]
+ballon_surface = ballon.get_rect(center=pos_ballon)
 
-# Position initial du ballon_métorite_1
-pos_x_ballon_1, pos_y_ballon_1 = 150, 425
-pos_ballon_1 = [pos_x_ballon_1, pos_y_ballon_1]
-ballon_surface_1 = ballon_1.get_rect(center=pos_ballon_1)
-
-#Position inital ballon_planet_2
-pos_x_ballon_2, pos_y_ballon_2 = 150, 425
-pos_ballon_2 = [pos_x_ballon_2, pos_y_ballon_2]
-ballon_surface_2 = ballon_2.get_rect(center=pos_ballon_2)
 
 
 # Temps initial en secondes (1 minute)
@@ -158,12 +150,11 @@ time_remaining = 1800
 
 
 continuer = True
-tir = False
+tir = True
 current_screen = "menu"  # Initial screen is the main menu
 
 
-angle_img_1 = 0
-angle_img_2 = 0
+angle = 0
 
 while continuer:
 
@@ -207,6 +198,13 @@ while continuer:
                 if bouton_clic_retour.collidepoint(event.pos):
                     current_screen = "menu"
 
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                continuer = False
+            elif event.type == MOUSEBUTTONUP:
+                if bouton_clic_retour.collidepoint(event.pos):
+                    current_screen = "menu"
+
 
 
 
@@ -238,6 +236,11 @@ while continuer:
     elif current_screen == "mode_1":
         ecran.blit(mode_1, (0, 0))
         ecran.blit(bouton_retour, bouton_clic_retour.topleft)
+        début_jeu = pygame.time.get_ticks()
+        font = pygame.font.Font(None,36)
+        text_color = (0,0,0)
+
+
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -245,113 +248,63 @@ while continuer:
             elif event.type == MOUSEBUTTONDOWN:
                 if bouton_clic_retour.collidepoint(event.pos):
                     current_screen = "play"
-                    tir = False
-                    pos_x_ballon_1,pos_y_ballon_1 = 150,425
-                    ballon_surface_1.center = pos_ballon_1
-                    time_remaining = 1800
+            elif event.type == MOUSEBUTTONUP and event.button == 1:
+                pos_x_init, pos_y_init = event.pos
+                if ballon_surface.collidepoint((pos_x_init, pos_y_init)):
+                    print("Ceci est un ballon")
             elif event.type == MOUSEBUTTONUP and event.button == 3:
-                pos_x_fin_1, pos_y_fin_1 = event.pos
-                pos_x_init_1 = pos_x_ballon_1
-                pos_y_init_1 =pos_y_ballon_1
-                angle_1 = math.atan2(pos_y_fin_1 - pos_y_init_1, pos_x_fin_1 - pos_x_init_1)
-                tir = True
-                vitesse_init_x_1 = abs(pos_x_fin_1 - pos_x_init_1) * math.cos(angle_1)
-                vitesse_init_y_1 = abs(pos_y_fin_1 - pos_y_init_1)* math.sin(angle_1)
+                pos_x_fin, pos_y_fin = event.pos
+                pos_x_init = pos_x_ballon
+                pos_y_init =pos_y_ballon
+                angle = math.atan2(pos_y_fin - pos_y_init, pos_x_fin - pos_x_init)
+                tir = False
+                vitesse_init_x = abs(pos_x_fin - pos_x_init) * math.cos(angle)
+                vitesse_init_y = abs(pos_y_fin - pos_y_init)* math.sin(angle)
 
-                if vitesse_init_x_1 > 200:
-                    vitesse_init_x_1 = 200
+                if vitesse_init_x > 200:
+                    vitesse_init_x = 200
 
 
             # Permet de replacer le ballon à sa position initial.
             elif event.type == KEYUP:
-                tir = False
-                pos_x_ballon_1, pos_y_ballon_1 = 150, 425
-                ballon_surface_1.center = pos_ballon_1
+                tir = True
+                pos_x_ballon, pos_y_ballon = 150, 425
+                ballon_surface.center = pos_ballon
         clock(time_remaining)
 
         time_remaining -= 1
         if time_remaining == 0:
             current_screen = "menu"
 
-        if tir == True:
+        if tir == False:
 
             time_elapsed = horloge.tick(60) / 100
-            pos_x_ballon_1 += vitesse_init_x_1 * time_elapsed
-            pos_y_ballon_1 += vitesse_init_y_1 * time_elapsed + 0.5 * GRAVITE * time_elapsed ** 2
-            vitesse_init_y_1 += GRAVITE * time_elapsed
+            pos_x_ballon += vitesse_init_x * time_elapsed
+            pos_y_ballon += vitesse_init_y * time_elapsed + 0.5 * GRAVITE * time_elapsed ** 2
+            vitesse_init_y += GRAVITE * time_elapsed
             # permet rebond sur le sol
-            if pos_y_ballon_1 > 600:
-                pos_y_ballon_1 = 600
-                vitesse_init_y_1 = -vitesse_init_y_1 * REBONDISSEMENT
+            if pos_y_ballon > 600:
+                pos_y_ballon = 600
+                vitesse_init_y = -vitesse_init_y * REBONDISSEMENT
 
-            ballon_surface_1.center = (pos_x_ballon_1, pos_y_ballon_1)
+            ballon_surface.center = (pos_x_ballon, pos_y_ballon)
 
         # rotation de la balle
-        rotated_ball_1 = pygame.transform.rotate(ballon_1, angle_img_1)
-        angle_img_1 -= 2
-        ecran.blit(rotated_ball_1, ballon_surface_1)
+        rotated_ball = pygame.transform.rotate(ballon, angle)
+        angle -= 2
+        ecran.blit(rotated_ball, ballon_surface)
 
-
+        pygame.display.flip()
 
     elif current_screen == "mode_2":
         ecran.blit(mode_2, (0, 0))
         ecran.blit(bouton_retour, bouton_clic_retour.topleft)
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 continuer = False
-
             elif event.type == MOUSEBUTTONUP:
                 if bouton_clic_retour.collidepoint(event.pos):
                     current_screen = "play"
-                    tir = False
-                    pos_x_ballon_2, pos_y_ballon_2 = 150, 425
-                    ballon_surface_2.center = pos_ballon_2
-                    time_remaining = 1800
-
-                elif event.type == MOUSEBUTTONUP and event.button == 3:
-                    pos_x_fin_2, pos_y_fin_2 = event.pos
-                    pos_x_init_2 = pos_x_ballon_2
-                    pos_y_init_2 = pos_y_ballon_2
-                    angle_2 = math.atan2(pos_y_fin_2 - pos_y_init_2, pos_x_fin_2 - pos_x_init_2)
-                    tir = True
-                    vitesse_init_x_2 = abs(pos_x_fin_2 - pos_x_init_2) * math.cos(angle_2)
-                    vitesse_init_y_2 = abs(pos_y_fin_2 - pos_y_init_2) * math.sin(angle_2)
-
-                    if vitesse_init_x_2 > 200:
-                        vitesse_init_x_2 = 200
-
-
-                # Permet de replacer le ballon à sa position initial.
-                elif event.type == KEYUP:
-                    tir = False
-                    pos_x_ballon_2, pos_y_ballon_2 = 150, 425
-                    ballon_surface_2.center = pos_ballon_2
-            clock(time_remaining)
-
-            time_remaining -= 1
-            if time_remaining == 0:
-                current_screen = "menu"
-
-            if tir == True:
-
-                time_elapsed = horloge.tick(60) / 100
-                pos_x_ballon_2 += vitesse_init_x_2 * time_elapsed
-                pos_y_ballon_2 += vitesse_init_y_2 * time_elapsed + 0.5 * GRAVITE * time_elapsed ** 2
-                vitesse_init_y_2 += GRAVITE * time_elapsed
-                # permet rebond sur le sol
-                if pos_y_ballon_2 > 600:
-                    pos_y_ballon_2 = 600
-                    vitesse_init_y_2 = -vitesse_init_y_2 * REBONDISSEMENT
-
-                ballon_surface_2.center = (pos_x_ballon_2, pos_y_ballon_2)
-
-            # rotation de la balle
-            rotated_ball_2 = pygame.transform.rotate(ballon_2, angle_img_2)
-            angle_img_2 -= 2
-            ecran.blit(rotated_ball_2, ballon_surface_2)
-
-        pygame.display.flip()
 
 pygame.quit()
 sys.exit()
