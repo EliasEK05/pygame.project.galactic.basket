@@ -331,7 +331,7 @@ while continuer:
                 #vitesse_init_y_1 = -vitesse_init_y_1 * REBONDISSEMENT
                 vitesse_init_x_1 = -vitesse_init_x_1 * REBONDISSEMENT
 
-
+        """
         if pos_x_ballon_1 > 840 and pos_x_ballon_1 > 870:
             if pos_y_ballon_1 < 345 and pos_y_ballon_1 < 360 :
                 print("rararararararrarararararrrrrararararaararararararara")
@@ -339,7 +339,8 @@ while continuer:
                 pos_y_ballon_1 = 190
                 vitesse_init_y_1 = -vitesse_init_y_1 * REBONDISSEMENT
                 vitesse_init_x_1 = -vitesse_init_x_1 * REBONDISSEMENT
-            
+                
+            """
 
 
 
