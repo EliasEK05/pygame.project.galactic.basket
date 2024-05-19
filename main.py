@@ -2,6 +2,7 @@ import pygame
 import sys
 from pygame.locals import *
 import math
+import random
 
 pygame.init()
 
@@ -26,8 +27,18 @@ def clock(timeremaining):
 pygame.mixer.init()
 # son principal :
 son_principal = pygame.mixer.Sound("son/son_principal.mp3")
-# son mode 2 :
-son_mode = pygame.mixer.Sound("son/son_mode_2.mp3")
+# son mode 1 :
+son_mode_1 = pygame.mixer.Sound("son/son_mode_1.wav")
+#son mode 2 :
+son_mode_2 = pygame.mixer.Sound("son/son_mode_2.mp3")
+#son score :
+son_score0 = pygame.mixer.Sound("son/score_0.mp3")
+son_score1 = pygame.mixer.Sound("son/score_1.mp3")
+son_score2 = pygame.mixer.Sound("son/score_2.mp3")
+son_score3 = pygame.mixer.Sound("son/score_3.mp3")
+son_score4 = pygame.mixer.Sound("son/score_4.mp3")
+liste_son = [son_score0,son_score1,son_score2,son_score3,son_score4]
+
 # état du son :
 etat_son = True
 
@@ -42,6 +53,10 @@ def play_son(nom_son, etat):
     else:
         pygame.mixer.stop()
 
+def jouer_son_aleatoire():
+    son_aleatoire = random.choice(liste_son)
+    son_aleatoire.play()
+
 
 pygame.init()
 
@@ -53,7 +68,8 @@ pygame.display.set_caption('Galactic Basket')
 
 horloge = pygame.time.Clock()
 
-
+#Définition volume général
+volume = 100
 
 # Définition des constantes physiques :
 GRAVITE = 9.81*5
@@ -72,10 +88,13 @@ imge = img.get_rect()
 
 # Fond d'écran paramètres
 parametre = pygame.image.load("image/test_background.jpg").convert_alpha()
-parametre = pygame.transform.scale(parametre, (1000, 750))
+parametre = pygame.transform.scale(parametre, (1000, 700))
 
-play = pygame.image.load("image/test_background.jpg").convert_alpha()
+play = pygame.image.load("image/mode_menu.png").convert_alpha()
 play = pygame.transform.scale(play, (1000, 700))
+
+endgame = pygame.image.load("image/end_of_game.png").convert_alpha()
+endgame = pygame.transform.scale(endgame, (1000, 700))
 
 mode_2 = pygame.image.load("image/court_mode_2.png").convert_alpha()
 mode_2 = pygame.transform.scale(mode_2, (1000, 700))
@@ -100,14 +119,14 @@ bouton_clic_reglage.topleft = (350, 520)
 print(bouton_clic_reglage)
 
 # bouton on
-bouton_on = pygame.image.load("image/bouton_on.png").convert_alpha()
+bouton_on = pygame.image.load("image/volume_on.png").convert_alpha()
 bouton_on = pygame.transform.scale(bouton_on, (150, 150))  # possibilité de changer la taille
 bouton_clic_on = bouton_on.get_rect()
 bouton_clic_on.topleft = (300, 300)
 print(bouton_clic_on)
 
 # bouton off
-bouton_off = pygame.image.load("image/bouton_off.png").convert_alpha()
+bouton_off = pygame.image.load("image/volume_off.png").convert_alpha()
 bouton_off = pygame.transform.scale(bouton_off, (150, 150))  # possibilité de changer la taille
 bouton_clic_off = bouton_off.get_rect()
 bouton_clic_off.topleft = (600, 300)
@@ -115,7 +134,7 @@ print(bouton_clic_off)
 
 # bouton retour
 bouton_retour = pygame.image.load("image/back_button.png").convert_alpha()
-bouton_retour = pygame.transform.scale(bouton_retour, (220, 120))
+bouton_retour = pygame.transform.scale(bouton_retour, (180, 180))
 bouton_clic_retour = bouton_retour.get_rect()
 bouton_clic_retour.topleft = (20, 20)
 print(bouton_clic_retour)
@@ -254,13 +273,30 @@ while continuer:
 
 
 
+    elif current_screen == "endgame":
+        ecran.blit(endgame, (0, 0))
+        ecran.blit(bouton_retour, bouton_clic_retour)
+        arial_font = pygame.font.SysFont("Bubblegum", 100, True, False)
+        texte_score = arial_font.render(f"{score} ", False, (27, 76, 212))
+        ecran.blit(texte_score, (600, 375))
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                continuer = False
+            elif event.type == MOUSEBUTTONDOWN:
+                if bouton_clic_retour.collidepoint(event.pos):
+                    current_screen = "play"
+                    time_remaining = 1800
 
 
     elif current_screen == "mode_1":
         ecran.blit(mode_1, (0, 0))
         ecran.blit(bouton_retour, bouton_clic_retour.topleft)
-        play_son(son_mode,etat_son)
-        
+        début_jeu = pygame.time.get_ticks()
+        font = pygame.font.Font(None,36)
+        text_color = (0,0,0)
+        play_son(son_mode_1,etat_son)
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 continuer = False
@@ -296,6 +332,7 @@ while continuer:
         if time_remaining == 0:
             score = 0000
             current_screen = "menu"
+            current_screen = "endgame"
             arret_son()
 
         if tir == True:
@@ -321,7 +358,9 @@ while continuer:
         ecran.blit(texte_, (250, 50))
 
         if (pos_x_ballon_1 > 990) and (pos_x_ballon_1 < 1100):
+
             if pos_y_ballon_1 < 450 and pos_y_ballon_1 > 150:
+
                 pos_x_ballon_1 = 980
                 vitesse_init_x_1 = -vitesse_init_x_1 * REBONDISSEMENT
 
@@ -329,7 +368,7 @@ while continuer:
         if pos_x_ballon_1 > 795 and pos_x_ballon_1 > 820:
             if pos_y_ballon_1 > 360 and pos_y_ballon_1 < 470 :
                 vitesse_init_x_1 = -vitesse_init_x_1 * REBONDISSEMENT
-                
+
 
 
         # quand la balle est dans le panier
@@ -350,8 +389,8 @@ while continuer:
     elif current_screen == "mode_2":
         ecran.blit(mode_2, (0, 0))
         ecran.blit(bouton_retour, bouton_clic_retour.topleft)
-        play_son(son_mode,etat_son)
-        
+        play_son(son_mode_2,etat_son)
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 continuer = False
@@ -385,9 +424,11 @@ while continuer:
 
         time_remaining -= 1
         if time_remaining == 0:
+            current_screen = "endgame"
             score = 0000
             current_screen = "menu"
             arret_son()
+
         if tir == True:
 
             time_elapsed = horloge.tick(60) / 100
