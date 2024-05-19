@@ -294,6 +294,7 @@ while continuer:
 
         time_remaining -= 1
         if time_remaining == 0:
+            score = 0000
             current_screen = "menu"
             arret_son()
 
@@ -317,88 +318,25 @@ while continuer:
         arial_font = pygame.font.SysFont("Bubblegum", 40, True, False)
         texte_ = arial_font.render(f"Score: {score} ", False, couleur1)
 
-        ecran.blit(texte_, (200, 50))
-        ecran.blit(hitbox, hitbox_clic)
-        # Dessiner la hitbox carrée rouge
-        #pygame.draw.rect(ecran, (255, 0, 0), (790, 190, 20, 20))  # Rectangle rouge à (700, 500) de taille 20x20
+        ecran.blit(texte_, (250, 50))
 
         if (pos_x_ballon_1 > 990) and (pos_x_ballon_1 < 1100):
-            print("ahhhhhh")
             if pos_y_ballon_1 < 450 and pos_y_ballon_1 > 150:
-                print("tatatatatatatata")
                 pos_x_ballon_1 = 980
-                #pos_y_ballon_1 = 400
-                #vitesse_init_y_1 = -vitesse_init_y_1 * REBONDISSEMENT
                 vitesse_init_x_1 = -vitesse_init_x_1 * REBONDISSEMENT
 
-        """
-        if pos_x_ballon_1 > 840 and pos_x_ballon_1 > 870:
-            if pos_y_ballon_1 < 345 and pos_y_ballon_1 < 360 :
-                print("rararararararrarararararrrrrararararaararararararara")
-                pos_x_ballon_1 = 790
-                pos_y_ballon_1 = 190
-                vitesse_init_y_1 = -vitesse_init_y_1 * REBONDISSEMENT
+        # quand la balle touche le filet
+        if pos_x_ballon_1 > 795 and pos_x_ballon_1 > 820:
+            if pos_y_ballon_1 > 360 and pos_y_ballon_1 < 470 :
                 vitesse_init_x_1 = -vitesse_init_x_1 * REBONDISSEMENT
                 
-            """
 
 
-
-
-        if (pos_x_ballon_1 > 890 and pos_x_ballon_1 < 950) and (pos_y_ballon_1 > 360 and pos_y_ballon_1 < 420):
+        # quand la balle est dans le panier
+        if (pos_x_ballon_1 > 890 and pos_x_ballon_1 < 950) and (pos_y_ballon_1 > 380 and pos_y_ballon_1 < 400) :
 
             # imcrémentation du score quand la balle rentre dans le panier
             score += 100
-
-            """
-
-            if (pos_x_ballon_1 == 790 and pos_y_ballon_1 == 190) :
-                pos_x_ballon_1 = 790
-                pos_y_ballon_1 = 190
-                vitesse_init_y_1 = -vitesse_init_y_1 * REBONDISSEMENT
-                vitesse_init_x_1 = -vitesse_init_x_1 * REBONDISSEMENT
-
-            if (pos_x_ballon_1 == 790 and pos_y_ballon_1 == 210) :
-                pos_x_ballon_1 = 790
-                pos_y_ballon_1 = 210
-                vitesse_init_y_1 = -vitesse_init_y_1 * REBONDISSEMENT
-                vitesse_init_x_1 = -vitesse_init_x_1 * REBONDISSEMENT
-
-            if (pos_x_ballon_1 == 810 and pos_y_ballon_1 == 190):
-                pos_x_ballon_1 = 810
-                pos_y_ballon_1 = 190
-                vitesse_init_y_1 = -vitesse_init_y_1 * REBONDISSEMENT
-                vitesse_init_x_1 = -vitesse_init_x_1 * REBONDISSEMENT
-
-            if (pos_x_ballon_1 > 790 and pos_x_ballon_1 < 810) and pos_y_ballon_1 == 210:
-                pos_x_ballon_1 = 810
-                pos_y_ballon_1 = 210
-                vitesse_init_y_1 = -vitesse_init_y_1 * REBONDISSEMENT
-                vitesse_init_x_1 = -vitesse_init_x_1 * REBONDISSEMENT
-
-            """
-
-
-        """
-            collision1 = ballon_surface.colliderect(hitbox_clic)
-
-            if hitbox_clic.colliderect(ballon_surface):
-                #nb_piece += 1
-                #list_piece.remove(piece)
-                print("et une pièce en plus")
-                collision1 = True   
-        """
-
-
-        """        
-        if hitbox.colliderect(ballon):
-            #ballon.position = ballon.old_position
-            time_elapsed = horloge.tick(60) / 100
-            pos_x_ballon += vitesse_init_x * time_elapsed
-            pos_y_ballon += vitesse_init_y * time_elapsed + 0.5 * GRAVITE * time_elapsed ** 2
-            vitesse_init_y += GRAVITE * time_elapsed
-        """
-
 
 
 
@@ -447,6 +385,7 @@ while continuer:
 
         time_remaining -= 1
         if time_remaining == 0:
+            score = 0000
             current_screen = "menu"
             arret_son()
         if tir == True:
