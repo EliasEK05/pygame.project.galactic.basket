@@ -177,9 +177,9 @@ ballon_surface_2 = ballon_2.get_rect(center=pos_ballon_2)
 
 # hitbox
 hitbox = pygame.image.load("image/hitbox.png").convert_alpha()
-hitbox = pygame.transform.scale(hitbox, (60, 60))
+hitbox = pygame.transform.scale(hitbox, (20, 30))
 hitbox_clic = hitbox.get_rect()
-hitbox_clic.topleft = (890, 360)
+hitbox_clic.topleft = (845, 340)
 
 # Temps initial en secondes (1 minute)
 time_remaining = 1800
@@ -198,7 +198,6 @@ angle_img_2 = 0
 score = 0000
 score_affichage = 0000
 
-#hitbox = pygame.Rect(790, 190, 20, 20)
 
 while continuer:
 
@@ -359,22 +358,35 @@ while continuer:
 
         ecran.blit(texte_, (250, 50))
 
-        if (pos_x_ballon_1 > 990) and (pos_x_ballon_1 < 1100):
+        ecran.blit(hitbox, hitbox_clic)
+
+        if (ballon_surface_1.midright[0] > 980) and (pos_x_ballon_1 < 1100):
 
             if pos_y_ballon_1 < 450 and pos_y_ballon_1 > 150:
 
-                pos_x_ballon_1 = 980
                 vitesse_init_x_1 = -vitesse_init_x_1 * REBONDISSEMENT
 
         # quand la balle touche le filet
-        if pos_x_ballon_1 > 795 and pos_x_ballon_1 > 820:
-            if pos_y_ballon_1 > 360 and pos_y_ballon_1 < 470 :
+        #if pos_x_ballon_1 > 795 and pos_x_ballon_1 > 820:
+            #if pos_y_ballon_1 > 360 and pos_y_ballon_1 < 470 :
+                #vitesse_init_x_1 = -vitesse_init_x_1 * REBONDISSEMENT
+
+        # quand la balle touche le bord à droite ou le bord à gauche de l'arceau
+        if (ballon_surface_1.midright[0] > 840 and ballon_surface_1.midright[0] < 865) or (ballon_surface_1.midleft[0] > 840 and ballon_surface_1.midleft[0] < 865) or (ballon_surface_1[0] > 840 and ballon_surface_1[0] < 865):
+            if ballon_surface_1.midright[1] > 330 and ballon_surface_1.midright[1] < 420 :
+                #print(" kjhgksdjhg bocjkhdgk cqhjgld")
+                #pos_x_ballon_1 -= 5
                 vitesse_init_x_1 = -vitesse_init_x_1 * REBONDISSEMENT
+
+        if (ballon_surface_1.midbottom[0] > 840) and ballon_surface_1.midbottom[0] < 865:
+            if ballon_surface_1.midbottom[1] > 360 and ballon_surface_1.midbottom[1] < 390 :
+                vitesse_init_y_1 = -vitesse_init_y_1 * REBONDISSEMENT
+
 
 
 
         # quand la balle est dans le panier
-        if (pos_x_ballon_1 > 890 and pos_x_ballon_1 < 950) and (pos_y_ballon_1 > 380 and pos_y_ballon_1 < 400) :
+        if (pos_x_ballon_1 > 890 and pos_x_ballon_1 < 980) and (pos_y_ballon_1 > 380 and pos_y_ballon_1 < 400) :
 
             # imcrémentation du score quand la balle rentre dans le panier
             score += 100
