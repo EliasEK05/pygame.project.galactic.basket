@@ -153,6 +153,12 @@ pos_ballon_2 = [pos_x_ballon_2, pos_y_ballon_2]
 ballon_surface_2 = ballon_2.get_rect(center=pos_ballon_2)
 
 
+# hitbox
+hitbox = pygame.image.load("image/hitbox.png").convert_alpha()
+hitbox = pygame.transform.scale(hitbox, (60, 60))
+hitbox_clic = hitbox.get_rect()
+hitbox_clic.topleft = (890, 360)
+
 # Temps initial en secondes (1 minute)
 time_remaining = 1800
 
@@ -164,6 +170,12 @@ current_screen = "menu"  # Initial screen is the main menu
 
 angle_img_1 = 0
 angle_img_2 = 0
+
+
+# définition du score
+score = 0000
+
+#hitbox = pygame.Rect(790, 190, 20, 20)
 
 while continuer:
 
@@ -285,6 +297,97 @@ while continuer:
                 vitesse_init_y_1 = -vitesse_init_y_1 * REBONDISSEMENT
 
             ballon_surface_1.center = (pos_x_ballon_1, pos_y_ballon_1)
+
+
+
+        # texte pour le score
+        couleur1 = (226, 216, 12)
+        arial_font = pygame.font.SysFont("Bubblegum", 40, True, False)
+        texte_ = arial_font.render(f"Score: {score} ", False, couleur1)
+
+        ecran.blit(texte_, (200, 50))
+        ecran.blit(hitbox, hitbox_clic)
+        # Dessiner la hitbox carrée rouge
+        #pygame.draw.rect(ecran, (255, 0, 0), (790, 190, 20, 20))  # Rectangle rouge à (700, 500) de taille 20x20
+
+        if (pos_x_ballon_1 > 990) and (pos_x_ballon_1 < 1100):
+            print("ahhhhhh")
+            if pos_y_ballon_1 < 450 and pos_y_ballon_1 > 150:
+                print("tatatatatatatata")
+                pos_x_ballon_1 = 980
+                #pos_y_ballon_1 = 400
+                #vitesse_init_y_1 = -vitesse_init_y_1 * REBONDISSEMENT
+                vitesse_init_x_1 = -vitesse_init_x_1 * REBONDISSEMENT
+
+
+        if pos_x_ballon_1 > 840 and pos_x_ballon_1 > 870:
+            if pos_y_ballon_1 < 345 and pos_y_ballon_1 < 360 :
+                print("rararararararrarararararrrrrararararaararararararara")
+                pos_x_ballon_1 = 790
+                pos_y_ballon_1 = 190
+                vitesse_init_y_1 = -vitesse_init_y_1 * REBONDISSEMENT
+                vitesse_init_x_1 = -vitesse_init_x_1 * REBONDISSEMENT
+            
+
+
+
+
+        if (pos_x_ballon_1 > 890 and pos_x_ballon_1 < 950) and (pos_y_ballon_1 > 360 and pos_y_ballon_1 < 420):
+
+            # imcrémentation du score quand la balle rentre dans le panier
+            score += 100
+
+            """
+
+            if (pos_x_ballon_1 == 790 and pos_y_ballon_1 == 190) :
+                pos_x_ballon_1 = 790
+                pos_y_ballon_1 = 190
+                vitesse_init_y_1 = -vitesse_init_y_1 * REBONDISSEMENT
+                vitesse_init_x_1 = -vitesse_init_x_1 * REBONDISSEMENT
+
+            if (pos_x_ballon_1 == 790 and pos_y_ballon_1 == 210) :
+                pos_x_ballon_1 = 790
+                pos_y_ballon_1 = 210
+                vitesse_init_y_1 = -vitesse_init_y_1 * REBONDISSEMENT
+                vitesse_init_x_1 = -vitesse_init_x_1 * REBONDISSEMENT
+
+            if (pos_x_ballon_1 == 810 and pos_y_ballon_1 == 190):
+                pos_x_ballon_1 = 810
+                pos_y_ballon_1 = 190
+                vitesse_init_y_1 = -vitesse_init_y_1 * REBONDISSEMENT
+                vitesse_init_x_1 = -vitesse_init_x_1 * REBONDISSEMENT
+
+            if (pos_x_ballon_1 > 790 and pos_x_ballon_1 < 810) and pos_y_ballon_1 == 210:
+                pos_x_ballon_1 = 810
+                pos_y_ballon_1 = 210
+                vitesse_init_y_1 = -vitesse_init_y_1 * REBONDISSEMENT
+                vitesse_init_x_1 = -vitesse_init_x_1 * REBONDISSEMENT
+
+            """
+
+
+        """
+            collision1 = ballon_surface.colliderect(hitbox_clic)
+
+            if hitbox_clic.colliderect(ballon_surface):
+                #nb_piece += 1
+                #list_piece.remove(piece)
+                print("et une pièce en plus")
+                collision1 = True   
+        """
+
+
+        """        
+        if hitbox.colliderect(ballon):
+            #ballon.position = ballon.old_position
+            time_elapsed = horloge.tick(60) / 100
+            pos_x_ballon += vitesse_init_x * time_elapsed
+            pos_y_ballon += vitesse_init_y * time_elapsed + 0.5 * GRAVITE * time_elapsed ** 2
+            vitesse_init_y += GRAVITE * time_elapsed
+        """
+
+
+
 
         # rotation de la balle
         rotated_ball_1 = pygame.transform.rotate(ballon_1, angle_img_1)
