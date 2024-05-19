@@ -7,7 +7,9 @@ Galactic Basket est un jeu de basketball en 2D développé avec Pygame. Le jeu p
 ## Partie utilisateur : 
 Menu paramètre : 
 - Choisir si vous souhaitez avoir du son ou pas.
-Règle du jeu : 
+  
+Règle du jeu :
+
 1- Choisir votre balle de départ.
   
 2- Lancer de la balle :
