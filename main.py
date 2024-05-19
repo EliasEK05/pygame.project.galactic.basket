@@ -379,6 +379,7 @@ while continuer:
 
 
 
+
         # rotation de la balle
         rotated_ball_1 = pygame.transform.rotate(ballon_1, angle_img_1)
         angle_img_1 -= 2
