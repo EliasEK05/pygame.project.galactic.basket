@@ -2,6 +2,7 @@ import pygame
 import sys
 from pygame.locals import *
 import math
+import random
 
 pygame.init()
 
@@ -26,8 +27,18 @@ def clock(timeremaining):
 pygame.mixer.init()
 # son principal :
 son_principal = pygame.mixer.Sound("son/son_principal.mp3")
-# son mode 2 :
-son_mode = pygame.mixer.Sound("son/son_mode_2.mp3")
+# son mode 1 :
+son_mode_1 = pygame.mixer.Sound("son/son_mode_1.wav")
+#son mode 2 :
+son_mode_2 = pygame.mixer.Sound("son/son_mode_2.mp3")
+#son score :
+son_score0 = pygame.mixer.Sound("son/score_0.mp3")
+son_score1 = pygame.mixer.Sound("son/score_1.mp3")
+son_score2 = pygame.mixer.Sound("son/score_2.mp3")
+son_score3 = pygame.mixer.Sound("son/score_3.mp3")
+son_score4 = pygame.mixer.Sound("son/score_4.mp3")
+liste_son = [son_score0,son_score1,son_score2,son_score3,son_score4]
+
 # état du son :
 etat_son = True
 
@@ -41,6 +52,10 @@ def play_son(nom_son, etat):
             nom_son.play(loops=-1)
     else:
         pygame.mixer.stop()
+
+def jouer_son_aleatoire():
+    son_aleatoire = random.choice(liste_son)
+    son_aleatoire.play()
 
 
 pygame.init()
@@ -277,10 +292,7 @@ while continuer:
         début_jeu = pygame.time.get_ticks()
         font = pygame.font.Font(None,36)
         text_color = (0,0,0)
-
-
-
-        play_son(son_mode,etat_son)
+        play_son(son_mode_1,etat_son)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -370,6 +382,7 @@ while continuer:
 
             # imcrémentation du score quand la balle rentre dans le panier
             score += 100
+            jouer_son_aleatoire()
 
             """
 
@@ -433,7 +446,7 @@ while continuer:
     elif current_screen == "mode_2":
         ecran.blit(mode_2, (0, 0))
         ecran.blit(bouton_retour, bouton_clic_retour.topleft)
-        play_son(son_mode,etat_son)
+        play_son(son_mode_2,etat_son)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
