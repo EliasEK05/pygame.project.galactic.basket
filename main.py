@@ -196,6 +196,7 @@ angle_img_2 = 0
 
 # définition du score
 score = 0000
+score_affichage = 0000
 
 #hitbox = pygame.Rect(790, 190, 20, 20)
 
@@ -277,7 +278,7 @@ while continuer:
         ecran.blit(endgame, (0, 0))
         ecran.blit(bouton_retour, bouton_clic_retour)
         arial_font = pygame.font.SysFont("Bubblegum", 100, True, False)
-        texte_score = arial_font.render(f"{score} ", False, (27, 76, 212))
+        texte_score = arial_font.render(f"{score_affichage} ", False, (27, 76, 212))
         ecran.blit(texte_score, (600, 375))
 
         for event in pygame.event.get():
@@ -330,9 +331,10 @@ while continuer:
 
         time_remaining -= 1
         if time_remaining == 0:
-            score = 0000
             current_screen = "menu"
             current_screen = "endgame"
+            score_affichage = score
+            score = 0000
             arret_son()
 
         if tir == True:
@@ -426,8 +428,9 @@ while continuer:
         time_remaining -= 1
         if time_remaining == 0:
             current_screen = "endgame"
-            score = 0000
             current_screen = "menu"
+            score_affichage = score
+            score = 0000
             arret_son()
 
         if tir == True:
@@ -442,6 +445,37 @@ while continuer:
                 vitesse_init_y_2 = -vitesse_init_y_2 * REBONDISSEMENT
 
             ballon_surface_2.center = (pos_x_ballon_2, pos_y_ballon_2)
+
+
+        # texte pour le score
+        couleur1 = (226, 216, 12)
+        arial_font = pygame.font.SysFont("Bubblegum", 40, True, False)
+        texte_ = arial_font.render(f"Score: {score} ", False, couleur1)
+
+        ecran.blit(texte_, (250, 50))
+
+        if (pos_x_ballon_2 > 990) and (pos_x_ballon_2 < 1100):
+
+            if pos_y_ballon_2 < 450 and pos_y_ballon_2 > 150:
+
+                pos_x_ballon_2 = 980
+                vitesse_init_x_2 = -vitesse_init_x_2 * REBONDISSEMENT
+
+        # quand la balle touche le filet
+        if pos_x_ballon_2 > 795 and pos_x_ballon_2 > 820:
+            if pos_y_ballon_2 > 360 and pos_y_ballon_2 < 470 :
+                vitesse_init_x_2 = -vitesse_init_x_2 * REBONDISSEMENT
+
+
+
+        # quand la balle est dans le panier
+        if (pos_x_ballon_2 > 890 and pos_x_ballon_2 < 950) and (pos_y_ballon_2 > 380 and pos_y_ballon_2 < 400) :
+
+            # imcrémentation du score quand la balle rentre dans le panier
+            score += 100
+
+
+
 
         # rotation de la balle
         rotated_ball_2 = pygame.transform.rotate(ballon_2, angle_img_2)
