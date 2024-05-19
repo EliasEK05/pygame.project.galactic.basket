@@ -93,20 +93,20 @@ print(bouton_clic_play)
 # bouton reglage
 
 bouton_reglage = pygame.image.load("image/settings_button.png").convert_alpha()
-bouton_reglage = pygame.transform.scale(bouton_reglage, (220, 120))  # possibilité de changer la taille
+bouton_reglage = pygame.transform.scale(bouton_reglage, (250, 120))  # possibilité de changer la taille
 bouton_clic_reglage = bouton_reglage.get_rect()
 bouton_clic_reglage.topleft = (350, 520)
 print(bouton_clic_reglage)
 
 # bouton on
-bouton_on = pygame.image.load("image/Untitled_Artwork (1).png").convert_alpha()
+bouton_on = pygame.image.load("image/bouton_on.png").convert_alpha()
 bouton_on = pygame.transform.scale(bouton_on, (150, 150))  # possibilité de changer la taille
 bouton_clic_on = bouton_on.get_rect()
 bouton_clic_on.topleft = (300, 300)
 print(bouton_clic_on)
 
 # bouton off
-bouton_off = pygame.image.load("image/ballon.png").convert_alpha()
+bouton_off = pygame.image.load("image/bouton_off.png").convert_alpha()
 bouton_off = pygame.transform.scale(bouton_off, (150, 150))  # possibilité de changer la taille
 bouton_clic_off = bouton_off.get_rect()
 bouton_clic_off.topleft = (600, 300)
@@ -220,7 +220,6 @@ while continuer:
 
         ecran.blit(play, (0, 0))
         ecran.blit(bouton_retour, bouton_clic_retour.topleft)
-        ecran.blit(bouton_reglage, (800, 20))
         ecran.blit(bouton_balle_1, bouton_clic_balle_1.topleft)
         ecran.blit(bouton_balle_2, bouton_clic_balle_2.topleft)
 
