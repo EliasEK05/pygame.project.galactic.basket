@@ -73,13 +73,13 @@ imge = img.get_rect()
 
 # Fond d'écran paramètres
 parametre = pygame.image.load("image/test_background.jpg").convert_alpha()
-parametre = pygame.transform.scale(parametre, (1000, 750))
+parametre = pygame.transform.scale(parametre, (1000, 700))
 
 play = pygame.image.load("image/mode_menu.png").convert_alpha()
 play = pygame.transform.scale(play, (1000, 700))
 
 endgame = pygame.image.load("image/end_of_game.png").convert_alpha()
-endgame = pygame.transform.scale(play, (1000, 700))
+endgame = pygame.transform.scale(endgame, (1000, 700))
 
 mode_2 = pygame.image.load("image/court_mode_2.png").convert_alpha()
 mode_2 = pygame.transform.scale(mode_2, (1000, 700))
@@ -257,7 +257,10 @@ while continuer:
 
     elif current_screen == "endgame":
         ecran.blit(endgame, (0, 0))
-        ecran.blit(bouton_retour, (300, 520))
+        ecran.blit(bouton_retour, bouton_clic_retour)
+        arial_font = pygame.font.SysFont("Bubblegum", 100, True, False)
+        texte_score = arial_font.render(f"{score} ", False, (27, 76, 212))
+        ecran.blit(texte_score, (600, 375))
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
