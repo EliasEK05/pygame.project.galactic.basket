@@ -87,20 +87,20 @@ img = pygame.transform.scale(img, (1000, 650))
 imge = img.get_rect()
 
 # Fond d'écran paramètres
-parametre = pygame.image.load("image/test_background.jpg").convert_alpha()
-parametre = pygame.transform.scale(parametre, (1000, 700))
+parametre = pygame.image.load("image/settings.png").convert_alpha()
+parametre = pygame.transform.scale(parametre, (1000, 650))
 
 play = pygame.image.load("image/mode_menu.png").convert_alpha()
-play = pygame.transform.scale(play, (1000, 700))
+play = pygame.transform.scale(play, (1000, 650))
 
 endgame = pygame.image.load("image/end_of_game.png").convert_alpha()
-endgame = pygame.transform.scale(endgame, (1000, 700))
+endgame = pygame.transform.scale(endgame, (1000, 650))
 
 mode_2 = pygame.image.load("image/court_mode_2.png").convert_alpha()
-mode_2 = pygame.transform.scale(mode_2, (1000, 700))
+mode_2 = pygame.transform.scale(mode_2, (1000, 650))
 
 mode_1 = pygame.image.load("image/court_mode_1.png").convert_alpha()
-mode_1 = pygame.transform.scale(mode_1, (1000, 700))
+mode_1 = pygame.transform.scale(mode_1, (1000, 650))
 
 
 # bouton play
@@ -120,16 +120,16 @@ print(bouton_clic_reglage)
 
 # bouton on
 bouton_on = pygame.image.load("image/volume_on.png").convert_alpha()
-bouton_on = pygame.transform.scale(bouton_on, (150, 150))  # possibilité de changer la taille
+bouton_on = pygame.transform.scale(bouton_on, (250, 250))  # possibilité de changer la taille
 bouton_clic_on = bouton_on.get_rect()
-bouton_clic_on.topleft = (300, 300)
+bouton_clic_on.topleft = (250, 80)
 print(bouton_clic_on)
 
 # bouton off
 bouton_off = pygame.image.load("image/volume_off.png").convert_alpha()
-bouton_off = pygame.transform.scale(bouton_off, (150, 150))  # possibilité de changer la taille
+bouton_off = pygame.transform.scale(bouton_off, (250, 250))  # possibilité de changer la taille
 bouton_clic_off = bouton_off.get_rect()
-bouton_clic_off.topleft = (600, 300)
+bouton_clic_off.topleft = (550, 80)
 print(bouton_clic_off)
 
 # bouton retour
@@ -219,7 +219,6 @@ while continuer:
             elif event.type == MOUSEBUTTONUP:
                 if bouton_clic_play.collidepoint(event.pos):
                     current_screen = "play"
-                    arret_son()
                 elif bouton_clic_reglage.collidepoint(event.pos):
                     current_screen = "settings"
 
