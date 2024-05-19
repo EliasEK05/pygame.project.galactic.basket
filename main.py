@@ -53,7 +53,8 @@ pygame.display.set_caption('Galactic Basket')
 
 horloge = pygame.time.Clock()
 
-
+#Définition volume général
+volume = 100
 
 # Définition des constantes physiques :
 GRAVITE = 9.81*5
@@ -74,8 +75,11 @@ imge = img.get_rect()
 parametre = pygame.image.load("image/test_background.jpg").convert_alpha()
 parametre = pygame.transform.scale(parametre, (1000, 750))
 
-play = pygame.image.load("image/test_background.jpg").convert_alpha()
+play = pygame.image.load("image/mode_menu.png").convert_alpha()
 play = pygame.transform.scale(play, (1000, 700))
+
+endgame = pygame.image.load("image/end_of_game.png").convert_alpha()
+endgame = pygame.transform.scale(play, (1000, 700))
 
 mode_2 = pygame.image.load("image/court_mode_2.png").convert_alpha()
 mode_2 = pygame.transform.scale(mode_2, (1000, 700))
@@ -92,7 +96,6 @@ bouton_clic_play.topleft = (350, 390)
 print(bouton_clic_play)
 
 # bouton reglage
-
 bouton_reglage = pygame.image.load("image/settings_button.png").convert_alpha()
 bouton_reglage = pygame.transform.scale(bouton_reglage, (250, 120))  # possibilité de changer la taille
 bouton_clic_reglage = bouton_reglage.get_rect()
@@ -100,14 +103,14 @@ bouton_clic_reglage.topleft = (350, 520)
 print(bouton_clic_reglage)
 
 # bouton on
-bouton_on = pygame.image.load("image/bouton_on.png").convert_alpha()
+bouton_on = pygame.image.load("image/volume_on.png").convert_alpha()
 bouton_on = pygame.transform.scale(bouton_on, (150, 150))  # possibilité de changer la taille
 bouton_clic_on = bouton_on.get_rect()
 bouton_clic_on.topleft = (300, 300)
 print(bouton_clic_on)
 
 # bouton off
-bouton_off = pygame.image.load("image/bouton_off.png").convert_alpha()
+bouton_off = pygame.image.load("image/volume_off.png").convert_alpha()
 bouton_off = pygame.transform.scale(bouton_off, (150, 150))  # possibilité de changer la taille
 bouton_clic_off = bouton_off.get_rect()
 bouton_clic_off.topleft = (600, 300)
@@ -115,7 +118,7 @@ print(bouton_clic_off)
 
 # bouton retour
 bouton_retour = pygame.image.load("image/back_button.png").convert_alpha()
-bouton_retour = pygame.transform.scale(bouton_retour, (220, 120))
+bouton_retour = pygame.transform.scale(bouton_retour, (180, 180))
 bouton_clic_retour = bouton_retour.get_rect()
 bouton_clic_retour.topleft = (20, 20)
 print(bouton_clic_retour)
@@ -205,8 +208,6 @@ while continuer:
                     current_screen = "settings"
 
 
-
-
     elif current_screen == "settings":  # ecran parametre
 
         ecran.blit(parametre, (0, 0))
@@ -254,13 +255,30 @@ while continuer:
 
 
 
+    elif current_screen == "endgame":
+        ecran.blit(endgame, (0, 0))
+        ecran.blit(bouton_retour, (300, 520))
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                continuer = False
+            elif event.type == MOUSEBUTTONDOWN:
+                if bouton_clic_retour.collidepoint(event.pos):
+                    current_screen = "play"
+                    time_remaining = 1800
 
 
     elif current_screen == "mode_1":
         ecran.blit(mode_1, (0, 0))
         ecran.blit(bouton_retour, bouton_clic_retour.topleft)
+        début_jeu = pygame.time.get_ticks()
+        font = pygame.font.Font(None,36)
+        text_color = (0,0,0)
+
+
+
         play_son(son_mode,etat_son)
-        
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 continuer = False
@@ -294,7 +312,7 @@ while continuer:
 
         time_remaining -= 1
         if time_remaining == 0:
-            current_screen = "menu"
+            current_screen = "endgame"
             arret_son()
 
         if tir == True:
@@ -413,7 +431,7 @@ while continuer:
         ecran.blit(mode_2, (0, 0))
         ecran.blit(bouton_retour, bouton_clic_retour.topleft)
         play_son(son_mode,etat_son)
-        
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 continuer = False
@@ -447,8 +465,9 @@ while continuer:
 
         time_remaining -= 1
         if time_remaining == 0:
-            current_screen = "menu"
+            current_screen = "endgame"
             arret_son()
+
         if tir == True:
 
             time_elapsed = horloge.tick(60) / 100
