@@ -31,7 +31,9 @@ son_mode = pygame.mixer.Sound("son/son_mode_2.mp3")
 # état du son :
 etat_son = True
 
-
+#arrêt du son:
+def arret_son():
+    pygame.mixer.stop()
 # Fonction pour basculer l'état du son (activé/désactivé)
 def play_son(nom_son, etat):
     if etat == True:
@@ -51,8 +53,7 @@ pygame.display.set_caption('Galactic Basket')
 
 horloge = pygame.time.Clock()
 
-#Définition volume général
-volume = 100
+
 
 # Définition des constantes physiques :
 GRAVITE = 9.81*5
@@ -187,6 +188,7 @@ while continuer:
             elif event.type == MOUSEBUTTONUP:
                 if bouton_clic_play.collidepoint(event.pos):
                     current_screen = "play"
+                    arret_son()
                 elif bouton_clic_reglage.collidepoint(event.pos):
                     current_screen = "settings"
 
@@ -222,7 +224,7 @@ while continuer:
         ecran.blit(bouton_retour, bouton_clic_retour.topleft)
         ecran.blit(bouton_balle_1, bouton_clic_balle_1.topleft)
         ecran.blit(bouton_balle_2, bouton_clic_balle_2.topleft)
-
+        play_son(son_principal,etat_son)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -232,10 +234,11 @@ while continuer:
                     current_screen = "menu"
                 elif bouton_clic_balle_1.collidepoint(event.pos):
                     current_screen = "mode_1"
+                    arret_son()
                 elif bouton_clic_balle_2.collidepoint(event.pos):
                     current_screen = "mode_2"
-                elif bouton_clic_reglage.collidepoint(event.pos):
-                    current_screen = "settings"
+                    arret_son()
+
 
 
 
@@ -244,13 +247,15 @@ while continuer:
     elif current_screen == "mode_1":
         ecran.blit(mode_1, (0, 0))
         ecran.blit(bouton_retour, bouton_clic_retour.topleft)
-
+        play_son(son_mode,etat_son)
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 continuer = False
             elif event.type == MOUSEBUTTONDOWN:
                 if bouton_clic_retour.collidepoint(event.pos):
                     current_screen = "play"
+                    arret_son()
                     tir = False
                     pos_x_ballon_1,pos_y_ballon_1 = 150,425
                     ballon_surface_1.center = pos_ballon_1
@@ -278,6 +283,7 @@ while continuer:
         time_remaining -= 1
         if time_remaining == 0:
             current_screen = "menu"
+            arret_son()
 
         if tir == True:
 
@@ -302,13 +308,15 @@ while continuer:
     elif current_screen == "mode_2":
         ecran.blit(mode_2, (0, 0))
         ecran.blit(bouton_retour, bouton_clic_retour.topleft)
-
+        play_son(son_mode,etat_son)
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 continuer = False
             elif event.type == MOUSEBUTTONDOWN:
                 if bouton_clic_retour.collidepoint(event.pos):
                     current_screen = "play"
+                    arret_son()
                     tir = False
                     pos_x_ballon_2, pos_y_ballon_2 = 150, 425
                     ballon_surface_2.center = pos_ballon_2
@@ -336,7 +344,7 @@ while continuer:
         time_remaining -= 1
         if time_remaining == 0:
             current_screen = "menu"
-
+            arret_son()
         if tir == True:
 
             time_elapsed = horloge.tick(60) / 100
