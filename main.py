@@ -277,7 +277,7 @@ while continuer:
         ecran.blit(bouton_retour, bouton_clic_retour)
         arial_font = pygame.font.SysFont("Bubblegum", 100, True, False)
         texte_score = arial_font.render(f"{score_affichage} ", False, (27, 76, 212))
-        ecran.blit(texte_score, (600, 375))
+        ecran.blit(texte_score, (600, 350))
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -329,7 +329,6 @@ while continuer:
 
         time_remaining -= 1
         if time_remaining == 0:
-            current_screen = "menu"
             current_screen = "endgame"
             score_affichage = score
             score = 0000
@@ -439,7 +438,6 @@ while continuer:
         time_remaining -= 1
         if time_remaining == 0:
             current_screen = "endgame"
-            current_screen = "menu"
             score_affichage = score
             score = 0000
             arret_son()
