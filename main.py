@@ -388,7 +388,7 @@ while continuer:
 
             # imcrémentation du score quand la balle rentre dans le panier
             score += 100
-
+            jouer_son_aleatoire()
 
 
 
