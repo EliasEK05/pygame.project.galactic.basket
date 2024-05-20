@@ -304,6 +304,7 @@ while continuer:
                     current_screen = "play"
                     arret_son()
                     tir = False
+                    score = 0
                     pos_x_ballon_1,pos_y_ballon_1 = 150,425
                     ballon_surface_1.center = pos_ballon_1
                     time_remaining = 1800
@@ -404,6 +405,7 @@ while continuer:
                     current_screen = "play"
                     arret_son()
                     tir = False
+                    score = 0
                     pos_x_ballon_2, pos_y_ballon_2 = 150, 425
                     ballon_surface_2.center = pos_ballon_2
                     time_remaining = 1800
