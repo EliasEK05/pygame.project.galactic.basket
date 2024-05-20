@@ -359,9 +359,10 @@ while continuer:
 
         if (ballon_surface_1.midright[0] > 980) and (pos_x_ballon_1 < 1100):
 
-            if pos_y_ballon_1 < 450 and pos_y_ballon_1 > 150:
+            if pos_y_ballon_1 < 450 and pos_y_ballon_1 > 120:
 
                 vitesse_init_x_1 = -vitesse_init_x_1 * REBONDISSEMENT
+
 
         # quand la balle touche le bord à droite ou le bord à gauche de l'arceau
         if (ballon_surface_1.midright[0] > 840 and ballon_surface_1.midright[0] < 865) or (ballon_surface_1.midleft[0] > 840 and ballon_surface_1.midleft[0] < 865) or (ballon_surface_1[0] > 840 and ballon_surface_1[0] < 865):
@@ -458,7 +459,7 @@ while continuer:
 
         if (ballon_surface_2.midright[0] > 980) and (pos_x_ballon_2 < 1100):
 
-            if pos_y_ballon_2 < 450 and pos_y_ballon_2 > 150:
+            if pos_y_ballon_2 < 450 and pos_y_ballon_2 > 120:
 
                 vitesse_init_x_2 = -vitesse_init_x_2 * REBONDISSEMENT
 
@@ -481,6 +482,7 @@ while continuer:
 
             # imcrémentation du score quand la balle rentre dans le panier
             score += 100
+            jouer_son_aleatoire()
 
 
 
