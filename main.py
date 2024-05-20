@@ -358,7 +358,6 @@ while continuer:
 
         ecran.blit(texte_, (250, 50))
 
-        ecran.blit(hitbox, hitbox_clic)
 
         if (ballon_surface_1.midright[0] > 980) and (pos_x_ballon_1 < 1100):
 
@@ -366,23 +365,15 @@ while continuer:
 
                 vitesse_init_x_1 = -vitesse_init_x_1 * REBONDISSEMENT
 
-        # quand la balle touche le filet
-        #if pos_x_ballon_1 > 795 and pos_x_ballon_1 > 820:
-            #if pos_y_ballon_1 > 360 and pos_y_ballon_1 < 470 :
-                #vitesse_init_x_1 = -vitesse_init_x_1 * REBONDISSEMENT
-
         # quand la balle touche le bord à droite ou le bord à gauche de l'arceau
         if (ballon_surface_1.midright[0] > 840 and ballon_surface_1.midright[0] < 865) or (ballon_surface_1.midleft[0] > 840 and ballon_surface_1.midleft[0] < 865) or (ballon_surface_1[0] > 840 and ballon_surface_1[0] < 865):
             if ballon_surface_1.midright[1] > 330 and ballon_surface_1.midright[1] < 420 :
-                #print(" kjhgksdjhg bocjkhdgk cqhjgld")
-                #pos_x_ballon_1 -= 5
+
                 vitesse_init_x_1 = -vitesse_init_x_1 * REBONDISSEMENT
 
         if (ballon_surface_1.midbottom[0] > 840) and ballon_surface_1.midbottom[0] < 865:
             if ballon_surface_1.midbottom[1] > 360 and ballon_surface_1.midbottom[1] < 390 :
                 vitesse_init_y_1 = -vitesse_init_y_1 * REBONDISSEMENT
-
-
 
 
         # quand la balle est dans le panier
@@ -459,6 +450,7 @@ while continuer:
             ballon_surface_2.center = (pos_x_ballon_2, pos_y_ballon_2)
 
 
+
         # texte pour le score
         couleur1 = (226, 216, 12)
         arial_font = pygame.font.SysFont("Bubblegum", 40, True, False)
@@ -466,22 +458,29 @@ while continuer:
 
         ecran.blit(texte_, (250, 50))
 
-        if (pos_x_ballon_2 > 990) and (pos_x_ballon_2 < 1100):
+
+        if (ballon_surface_2.midright[0] > 980) and (pos_x_ballon_2 < 1100):
 
             if pos_y_ballon_2 < 450 and pos_y_ballon_2 > 150:
 
-                pos_x_ballon_2 = 980
                 vitesse_init_x_2 = -vitesse_init_x_2 * REBONDISSEMENT
 
-        # quand la balle touche le filet
-        if pos_x_ballon_2 > 795 and pos_x_ballon_2 > 820:
-            if pos_y_ballon_2 > 360 and pos_y_ballon_2 < 470 :
+
+        # quand la balle touche le bord à droite ou le bord à gauche de l'arceau
+        if (ballon_surface_2.midright[0] > 840 and ballon_surface_2.midright[0] < 865) or (ballon_surface_2.midleft[0] > 840 and ballon_surface_2.midleft[0] < 865) or (ballon_surface_2[0] > 840 and ballon_surface_2[0] < 865):
+            if ballon_surface_2.midright[1] > 330 and ballon_surface_2.midright[1] < 420 :
+
                 vitesse_init_x_2 = -vitesse_init_x_2 * REBONDISSEMENT
+
+        if (ballon_surface_2.midbottom[0] > 840) and ballon_surface_2.midbottom[0] < 865:
+            if ballon_surface_2.midbottom[1] > 360 and ballon_surface_2.midbottom[1] < 390 :
+                vitesse_init_y_2 = -vitesse_init_y_2 * REBONDISSEMENT
+
 
 
 
         # quand la balle est dans le panier
-        if (pos_x_ballon_2 > 890 and pos_x_ballon_2 < 950) and (pos_y_ballon_2 > 380 and pos_y_ballon_2 < 400) :
+        if (pos_x_ballon_2 > 890 and pos_x_ballon_2 < 980) and (pos_y_ballon_2 > 380 and pos_y_ballon_2 < 400) :
 
             # imcrémentation du score quand la balle rentre dans le panier
             score += 100
