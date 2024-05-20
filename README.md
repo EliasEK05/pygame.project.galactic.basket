@@ -34,4 +34,4 @@ Règle du jeu :
 
 • Tran Tony
 
-• Group E
+• Groupe E
